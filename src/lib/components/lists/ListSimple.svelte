@@ -9,7 +9,7 @@
 	export let list: List;
 </script>
 
-<article class="flex flex-col rounded-xl bg-[#dce0e8] p-4 text-text-light dark:bg-[#11111b] dark:text-text-dark">
+<article class="flex flex-col rounded-xl bg-gray-200 p-4 text-text-light dark:bg-[#11111b] dark:text-text-dark">
 	<header class="flex justify-between">
 		<div>
 			<a

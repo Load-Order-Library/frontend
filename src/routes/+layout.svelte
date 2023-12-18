@@ -23,7 +23,7 @@
 	<meta name="theme-color" content="#ffffff" />
 </svelte:head>
 
-<header class="mb-6 border-b-2 border-green-500 dark:text-white">
+<header class="mb-6 border-b-2 border-green-400 dark:border-green-800 dark:text-white">
 	<nav class="container mx-auto flex flex-col items-center px-4 py-4 text-xl md:flex-row lg:px-20">
 		<div class="flex w-full items-center justify-between md:w-auto">
 			<a href="/" class="text-2xl font-bold md:mr-4"
@@ -81,7 +81,9 @@
 	<slot />
 </main>
 
-<footer class="bg-[#dce0e8] text-center text-black dark:bg-[#11111b] dark:text-white">
+<footer
+	class="border-t-2 border-green-400 bg-[#dce0e8] text-center text-black dark:border-green-800 dark:bg-[#11111b] dark:text-white"
+>
 	<div class="px-4 py-5 text-center sm:container sm:mx-auto sm:flex sm:justify-between">
 		<div class="space-y-2">
 			<p class="font-bold text-green-600 dark:text-green-500">Load Order Library</p>
