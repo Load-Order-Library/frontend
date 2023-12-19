@@ -12,11 +12,14 @@
 		{ name: 'Test8', links: ['https://github.com/phinocio/cool-wj-list', 'phinocio.com', 'readme.example.com'] },
 		{ name: 'Test9', links: [] },
 	];
+
+	// $: isLoggedIn = $user === null ? false : true;
 </script>
 
 <svelte:head>
 	<title>Home - Load Order Library</title>
 </svelte:head>
+
 <h1 class="mb-4 text-3xl font-bold">All Lists</h1>
 
 <div class="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
