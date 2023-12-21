@@ -9,8 +9,12 @@
 	import GitHubIcon from '$lib/components/icons/GitHub.svelte';
 
 	export let hidden = true;
+	export let userMenuHidden = true;
 
 	$: $page.url && (hidden = true);
+	$: $page.url && (userMenuHidden = true);
+
+	export let data;
 </script>
 
 <svelte:head>
@@ -62,16 +66,78 @@
 			</div>
 			<hr class="border-border-light dark:border-border-dark" />
 			<div class="flex flex-col md:flex-row">
-				<a
-					href="login"
-					class="rounded-xl px-4 py-2 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white"
-					>Login</a
-				>
-				<a
-					href="register"
-					class="rounded-xl px-4 py-2 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white"
-					>Register</a
-				>
+				{#if data.user}
+					<div class="relative hidden sm:block">
+						<button
+							on:click={() => (userMenuHidden = !userMenuHidden)}
+							type="button"
+							class="relative z-10 h-12 w-12 rounded-full border-2 border-green-500 bg-light hover:border-green-400 dark:bg-dark"
+							>{data.user.name.charAt(0)}</button
+						><button
+							type="button"
+							aria-labelledby="Close Dropdown"
+							class="fixed inset-0 hidden h-full w-full cursor-default bg-black opacity-50"
+							class:hidden={userMenuHidden}
+							on:click={() => (userMenuHidden = !userMenuHidden)}
+							tabindex="-1"
+						></button>
+						<div
+							class="absolute right-0 mt-2 w-48 rounded-lg border border-blue-500 bg-light dark:bg-dark"
+							class:hidden={userMenuHidden}
+						>
+							<a
+								aria-current="page"
+								class="active block py-2 hover:bg-blue-500 hover:text-white"
+								href="/profile">Profile</a
+							><a
+								aria-current="page"
+								class="active block py-2 hover:bg-blue-500 hover:text-white"
+								href="/profile">My Lists</a
+							>
+							<hr class="my-2 border-border-light dark:border-border-dark" />
+							<form method="POST" action="?/logout">
+								<button
+									type="button"
+									class="block w-full py-2 text-center hover:bg-blue-500 hover:text-white"
+									>Logout</button
+								>
+							</form>
+						</div>
+					</div>
+
+					<!-- Mobile Account Dropdown -->
+					<div class="relative mt-4 text-center sm:hidden">
+						<button
+							type="button"
+							class="relative z-10 h-12 w-12 rounded-full border-2 border-green-500 bg-light hover:border-green-400 dark:bg-dark"
+							>{data.user.name.charAt(0)}</button
+						>
+						<div class="mt-2 rounded-lg">
+							<a aria-current="page" class="active block px-2 py-2 hover:bg-blue-500" href="/profile"
+								>Profile</a
+							><a aria-current="page" class="active block px-2 py-2 hover:bg-blue-500" href="/profile"
+								>My Lists</a
+							>
+							<hr class="my-2 border-border-light dark:border-border-dark" />
+							<form method="POST" action="?/logout">
+								<button type="button" class="block w-full px-2 py-2 text-center hover:bg-blue-500"
+									>Logout</button
+								>
+							</form>
+						</div>
+					</div>
+				{:else}
+					<a
+						href="login"
+						class="rounded-xl px-4 py-2 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white"
+						>Login</a
+					>
+					<a
+						href="register"
+						class="rounded-xl px-4 py-2 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white"
+						>Register</a
+					>
+				{/if}
 			</div>
 		</div>
 	</nav>
@@ -87,7 +153,13 @@
 	<div class="px-4 py-5 text-center sm:container sm:mx-auto sm:flex sm:justify-between">
 		<div class="space-y-2">
 			<p class="font-bold text-green-600 dark:text-green-500">Load Order Library</p>
-			<p>Created By <span class="text-blue-500">Phinocio</span></p>
+			<p>
+				Created By <a
+					href="https://phinocio.com"
+					class="text-blue-600 hover:text-blue-400 active:text-blue-400 dark:text-blue-400 dark:hover:text-blue-600 dark:active:text-blue-600"
+					>Phinocio</a
+				>
+			</p>
 		</div>
 		<hr class="my-4 border-border-light dark:border-border-dark sm:hidden" />
 		<div class="space-y-2">

@@ -14,13 +14,13 @@
 		<div>
 			<a
 				href="#"
-				class="font-bold text-green-600 hover:text-green-500 active:text-blue-500 dark:text-green-500 dark:hover:text-green-600 dark:active:text-green-600"
+				class="font-bold text-green-600 hover:text-green-500 active:text-green-500 dark:text-green-500 dark:hover:text-green-600 dark:active:text-green-600"
 				>{list.name}</a
 			>
 			<p>
 				by <a
 					href="#"
-					class=" text-green-600 hover:text-green-500 active:text-blue-500 dark:text-green-500 dark:hover:text-green-600 dark:active:text-green-600"
+					class=" text-green-600 hover:text-green-500 active:text-green-500 dark:text-green-500 dark:hover:text-green-600 dark:active:text-green-600"
 					>Phinocio</a
 				>
 			</p>

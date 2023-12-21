@@ -1,31 +1,35 @@
 <script>
 	import ListSimple from '$lib/components/lists/ListSimple.svelte';
 
-	let lists = [
-		{ name: 'Test', links: ['https://github.com/phinocio/cool-wj-list'] },
-		{ name: 'Test2', links: [] },
-		{ name: 'Test3', links: [] },
-		{ name: 'Test4', links: [] },
-		{ name: 'Test5', links: ['https://github.com/phinocio/cool-wj-list'] },
-		{ name: 'Test6', links: ['https://github.com/phinocio/cool-wj-list'] },
-		{ name: 'Test7', links: [] },
-		{ name: 'Test8', links: ['https://github.com/phinocio/cool-wj-list', 'phinocio.com', 'readme.example.com'] },
-		{ name: 'Test9', links: [] },
-	];
+	export let data;
 
-	// $: isLoggedIn = $user === null ? false : true;
+	const [user, lists] = [data.user, data.lists];
 </script>
 
 <svelte:head>
 	<title>Home - Load Order Library</title>
 </svelte:head>
 
-<h1 class="mb-4 text-3xl font-bold">All Lists</h1>
+<h1 class="mb-4 text-3xl font-bold">Your Lists</h1>
 
 <div class="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
-	{#each lists as list}
-		<ListSimple {list} />
-	{/each}
+	{#if user}
+		{#if lists.data.length > 0}
+			{#each lists.data as list}
+				<ListSimple {list} />
+			{/each}
+		{:else}
+			<p>
+				You have no lists, why not <a
+					href="/upload"
+					class="font-bold text-green-600 hover:text-green-500 active:text-blue-500 dark:text-green-500 dark:hover:text-green-600 dark:active:text-green-600"
+					>create one.</a
+				>
+			</p>
+		{/if}
+	{:else}
+		<p>You are not logged in.</p>
+	{/if}
 </div>
 
 <style lang="postcss">

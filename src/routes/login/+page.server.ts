@@ -1,20 +1,20 @@
 import type { PageServerLoad, Actions } from './$types';
-import { fail } from '@sveltejs/kit';
-import { parse } from 'cookie';
+import { fail, redirect } from '@sveltejs/kit';
 
-type Cookies = Record<string, string | Date | boolean>;
+import { API_URL } from '$env/static/private';
+import { useSetCookies } from '$lib/helpers/xsrf';
 
-export const load: PageServerLoad = async ({ request, fetch }) => {
-	const resp = await fetch('http://api.lol.wonderland/v1/user', {
-		headers: { Accept: 'application/json' },
-		credentials: 'include',
-	});
+// export const load: PageServerLoad = async ({ request, fetch }) => {
+// 	const resp = await fetch(`${API_URL}/v1/user`, {
+// 		headers: { Accept: 'application/json' },
+// 		credentials: 'include',
+// 	});
 
-	const user = await resp.json();
-	console.log(user);
+// 	const user = await resp.json();
+// 	console.log(user);
 
-	return { user };
-};
+// 	return { user };
+// };
 
 export const actions = {
 	login: async ({ cookies, request, fetch }) => {
@@ -26,7 +26,7 @@ export const actions = {
 			return fail(400, { name, missing: true });
 		}
 
-		const resp = await fetch('http://api.lol.wonderland/login', {
+		const resp = await fetch(`${API_URL}/login`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -44,23 +44,32 @@ export const actions = {
 			return fail(resp.status, { name, incorrect: true, errors: respData.errors });
 		}
 
-		console.log(respData);
-		// Set new cookies I guess?
-		const setCookies = resp.headers.getSetCookie();
+		// Set the new cookies after logging in
+		await useSetCookies(resp.headers.getSetCookie(), cookies);
 
-		for (let i = 0; i < setCookies.length; i++) {
-			let cookie: Cookies = parse(setCookies[i]);
-			const name = Object.keys(cookie)[0];
-			const val: string = String(cookie[name]);
-			delete cookie[name];
+		throw redirect(303, '/');
+	},
 
-			cookie['expires'] = new Date(String(cookie['expires']));
-			cookie['httponly'] = setCookies[i].toLowerCase().indexOf('httponly') !== -1;
-			cookie['secure'] = setCookies[i].toLowerCase().indexOf('secure') !== -1;
+	logout: async ({ cookies, fetch }) => {
+		const resp = await fetch(`${API_URL}/logout`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+			},
+			credentials: 'include',
+		});
 
-			// console.log(cookie);
-			cookies.set(name, val, cookie);
+		console.log(resp);
+
+		if (resp.status !== 200) {
+			console.error('Logout failed somehow');
+			return fail(resp.status, { incorrect: true });
 		}
-		return { success: true };
+
+		// Set the new cookies after logging out
+		await useSetCookies(resp.headers.getSetCookie(), cookies);
+
+		throw redirect(303, '/');
 	},
 } satisfies Actions;
