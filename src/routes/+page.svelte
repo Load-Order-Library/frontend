@@ -3,7 +3,7 @@
 
 	export let data;
 
-	const [user, lists] = [data.user, data.lists];
+	const { user, lists } = data;
 </script>
 
 <svelte:head>

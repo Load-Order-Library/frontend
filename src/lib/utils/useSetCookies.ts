@@ -1,9 +1,20 @@
 type myCookies = Record<string, string | Date | boolean>;
 
+import { API_URL } from '$env/static/private';
 import type { Cookies } from '@sveltejs/kit';
 import { parse } from 'cookie';
 
 //TODO: Proper error handling
+
+export async function refreshXSRFToken(cookies: Cookies) {
+	await fetch(`${API_URL}/sanctum/csrf-cookie`, { credentials: 'include' })
+		.then(async (res) => {
+			await useSetCookies(res.headers.getSetCookie(), cookies);
+		})
+		.catch((err) => {
+			console.error(err);
+		});
+}
 
 // TODO: I think this method of checking if the XSRF-TOKEN doesn't exist to then fetch it is flawed when
 // actually being logged in and whatnot... but need to test it first

@@ -95,9 +95,9 @@
 								href="/profile">My Lists</a
 							>
 							<hr class="my-2 border-border-light dark:border-border-dark" />
-							<form method="POST" action="?/logout">
+							<form method="POST" action="/logout">
 								<button
-									type="button"
+									type="submit"
 									class="block w-full py-2 text-center hover:bg-blue-500 hover:text-white"
 									>Logout</button
 								>

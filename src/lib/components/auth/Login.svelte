@@ -1,6 +1,4 @@
 <script lang="ts">
-	import user from '../../../user';
-
 	let name: string = '';
 	let password: string = '';
 </script>

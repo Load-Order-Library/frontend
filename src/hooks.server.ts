@@ -1,6 +1,7 @@
 import { redirect, type Handle, type HandleFetch } from '@sveltejs/kit';
 import { API_URL } from '$env/static/private';
 import { getUser } from './server/auth';
+import { refreshXSRFToken, useSetCookies } from '$lib/utils/useSetCookies';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.user = await getUser(event);
@@ -13,6 +14,11 @@ export const handle: Handle = async ({ event, resolve }) => {
 };
 
 export const handleFetch: HandleFetch = async ({ event, request, fetch }) => {
+	// I think this makes the most sense here..
+	if (!event.cookies.get('XSRF-TOKEN')) {
+		await refreshXSRFToken(event.cookies);
+	}
+
 	if (request.url.startsWith(`${API_URL}/`)) {
 		request.headers.set('cookie', event.request.headers.get('cookie')?.replace('%3D', '=') || '');
 		request.headers.set(
