@@ -7,7 +7,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.user = await getUser(event);
 
 	if (event.locals.user && (event.url.pathname.startsWith('/login') || event.url.pathname.startsWith('/register'))) {
-		throw redirect(303, '/');
+		throw redirect(303, '/profile');
 	}
 
 	return await resolve(event);

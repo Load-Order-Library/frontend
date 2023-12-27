@@ -3,7 +3,7 @@
 
 	export let data;
 
-	const { author, game, lists } = data;
+	$: ({ author, game, lists } = data);
 </script>
 
 <svelte:head>

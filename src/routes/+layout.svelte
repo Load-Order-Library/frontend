@@ -7,6 +7,7 @@
 	import MenuIcon from '$lib/components/icons/Menu.svelte';
 	import DiscordIcon from '$lib/components/icons/Discord.svelte';
 	import GitHubIcon from '$lib/components/icons/GitHub.svelte';
+	import BlueSkyIcon from '$lib/components/icons/BlueSky.svelte';
 
 	export let hidden = true;
 	export let userMenuHidden = true;
@@ -165,9 +166,23 @@
 		<div class="space-y-2">
 			<p class="font-bold text-green-600 dark:text-green-500">Social</p>
 			<p class="flex justify-center space-x-2">
-				<a class="hover:text-blue-500" href="https://github.com/phinocio/loadorderlibrary"
-					><GitHubIcon class="h-6 w-6" /></a
-				><a class="hover:text-blue-500" href="https://discord.gg/K3KnEgrQE4"><DiscordIcon class="h-6 w-6" /></a>
+				<a
+					class="hover:text-blue-500"
+					href="https://github.com/phinocio/loadorderlibrary"
+					rel="noreferrer noopener"
+					target="_blank"><GitHubIcon class="h-6 w-6" /></a
+				><a
+					class="hover:text-blue-500"
+					href="https://discord.gg/K3KnEgrQE4"
+					rel="noreferrer noopener"
+					target="_blank"><DiscordIcon class="h-6 w-6" /></a
+				>
+				<a
+					class="hover:text-blue-500"
+					href="https://bsky.app/profile/phinoc.io"
+					rel="noreferrer noopener"
+					target="_blank"><BlueSkyIcon class="h-6 w-6" /></a
+				>
 			</p>
 		</div>
 		<hr class="my-4 border-border-light dark:border-border-dark sm:hidden" />
@@ -183,7 +198,7 @@
 			<p class="flex justify-center space-x-2">
 				<a class="hover:text-blue-500" href="https://patreon.com/phinocio">Patreon</a><a
 					class="hover:text-blue-500"
-					href="https://ko-fi.com/phinocio">Ko-Fi</a
+					href="https://ko-fi.com/phinocio">Ko-fi</a
 				>
 			</p>
 		</div>
