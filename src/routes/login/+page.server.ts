@@ -8,6 +8,7 @@ export const actions = {
 	login: async ({ cookies, request, fetch }) => {
 		const data = await request.formData();
 		const name = data.get('name');
+		const remember = data.get('remember') ?? null;
 		const password = data.get('password');
 
 		if (!name) {
@@ -21,20 +22,18 @@ export const actions = {
 				Accept: 'application/json',
 			},
 			credentials: 'include',
-			body: JSON.stringify({ name, password }),
+			body: JSON.stringify({ name, password, remember }),
 		});
 
 		const respData = await resp.json();
 
 		if (resp.status !== 200) {
-			console.error(respData);
-			console.error('Login failed');
-			return fail(resp.status, { name, incorrect: true, errors: respData.errors });
+			return fail(resp.status, { name, incorrect: true, resp: respData });
 		}
 
 		// Set the new cookies after logging in
 		await useSetCookies(resp.headers.getSetCookie(), cookies);
 
-		throw redirect(303, '/');
+		throw redirect(303, '/profile');
 	},
 } satisfies Actions;

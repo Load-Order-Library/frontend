@@ -22,6 +22,8 @@ export const actions: Actions = {
 
 		if (resp.status !== 204) {
 			console.error('Logout failed somehow');
+			const data = await resp.json();
+			console.log(data);
 			return fail(resp.status, { incorrect: true });
 		}
 

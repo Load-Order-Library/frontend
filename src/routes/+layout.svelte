@@ -189,16 +189,28 @@
 		<div class="space-y-2">
 			<p class="font-bold text-green-600 dark:text-green-500">API Resources</p>
 			<p class="flex justify-center space-x-2">
-				<a class="hover:text-blue-500" href="https://docs.loadorderlibrary.com">Documentation</a>
+				<a
+					class="hover:text-blue-500"
+					href="https://docs.loadorderlibrary.com"
+					rel="noreferrer noopener"
+					target="_blank">Documentation</a
+				>
 			</p>
 		</div>
 		<hr class="my-4 border-border-light dark:border-border-dark sm:hidden" />
 		<div class="space-y-2">
 			<p class="font-bold text-green-600 dark:text-green-500">Support The Site</p>
 			<p class="flex justify-center space-x-2">
-				<a class="hover:text-blue-500" href="https://patreon.com/phinocio">Patreon</a><a
+				<a
 					class="hover:text-blue-500"
-					href="https://ko-fi.com/phinocio">Ko-fi</a
+					href="https://patreon.com/phinocio"
+					rel="noreferrer noopener"
+					target="_blank">Patreon</a
+				><a
+					class="hover:text-blue-500"
+					href="https://ko-fi.com/phinocio"
+					rel="noreferrer noopener"
+					target="_blank">Ko-fi</a
 				>
 			</p>
 		</div>

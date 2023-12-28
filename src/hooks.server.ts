@@ -10,6 +10,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 		throw redirect(303, '/profile');
 	}
 
+	if (!event.locals.user && event.url.pathname.startsWith('/profile')) {
+		throw redirect(303, '/login');
+	}
+
 	return await resolve(event);
 };
 

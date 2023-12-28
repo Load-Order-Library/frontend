@@ -3,7 +3,6 @@ import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ url, fetch }) => {
 	const filters = 'author|game';
-	// const re = new RegExp(`[^\\[](${filters})[^\\]]`, 'g');
 	const re = new RegExp(`${filters}`, 'g');
 
 	let apiRoute = `${PUBLIC_API_URL}/v1/lists`;

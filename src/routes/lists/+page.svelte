@@ -26,6 +26,13 @@
 			<ListSimple {list} />
 		{/each}
 	{:else}
-		<p>No lists found.</p>
+		<p>
+			No lists available to show, why not <a
+				href="/upload"
+				class="text-blue-600 hover:text-blue-400 active:text-blue-400 dark:text-blue-400 dark:hover:text-blue-600 dark:active:text-blue-600"
+			>
+				create one?
+			</a>
+		</p>
 	{/if}
 </div>
