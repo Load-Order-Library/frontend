@@ -1,5 +1,6 @@
 <script>
-	import ListSimple from '$lib/components/lists/ListSimple.svelte';
+	import BrowseList from '$lib/components/lists/BrowseList.svelte';
+	import PasswordIcon from '$lib/components/icons/Password.svelte';
 
 	export let data;
 
@@ -13,7 +14,7 @@
 <h1 class="mb-4 text-3xl font-bold">
 	{game ?? 'All'} Lists {#if author}
 		by <a
-			href="#"
+			href="/lists?author={author}"
 			class=" text-green-600 hover:text-green-500 active:text-green-500 dark:text-green-500 dark:hover:text-green-600 dark:active:text-green-600"
 			>{author}</a
 		>
@@ -23,7 +24,7 @@
 <div class="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
 	{#if lists.data.length > 0}
 		{#each lists.data as list}
-			<ListSimple {list} />
+			<BrowseList {list} />
 		{/each}
 	{:else}
 		<p>

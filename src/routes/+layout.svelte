@@ -69,12 +69,14 @@
 			<div class="flex flex-col md:flex-row">
 				{#if data.user}
 					<div class="relative hidden sm:block">
+						<button on:click={() => (userMenuHidden = !userMenuHidden)} type="button"
+							><img
+								class="relative z-10 h-12 w-12 rounded-full border-2 border-green-500 bg-light hover:opacity-50 dark:bg-dark"
+								src="https://cdn.discordapp.com/attachments/844775429306581022/1187134176437219540/pogatito.png?ex=659f025b&is=658c8d5b&hm=8fbe279aeb7023d0a761143e07b9ff724cadc2b788b991b04822b60c949b92f7&"
+								alt="user profile"
+							/></button
+						>
 						<button
-							on:click={() => (userMenuHidden = !userMenuHidden)}
-							type="button"
-							class="relative z-10 h-12 w-12 rounded-full border-2 border-green-500 bg-light hover:border-green-400 dark:bg-dark"
-							>{data.user.name.charAt(0)}</button
-						><button
 							type="button"
 							aria-labelledby="Close Dropdown"
 							class="fixed inset-0 hidden h-full w-full cursor-default bg-black opacity-50"
@@ -88,7 +90,7 @@
 						>
 							<a
 								aria-current="page"
-								class="active block py-2 hover:bg-blue-500 hover:text-white"
+								class="active block rounded-t py-2 hover:bg-blue-500 hover:text-white"
 								href="/profile">Profile</a
 							><a
 								aria-current="page"
@@ -99,7 +101,7 @@
 							<form method="POST" action="/logout">
 								<button
 									type="submit"
-									class="block w-full py-2 text-center hover:bg-blue-500 hover:text-white"
+									class="block w-full rounded-b py-2 text-center hover:bg-blue-500 hover:text-white"
 									>Logout</button
 								>
 							</form>
@@ -158,7 +160,8 @@
 				Created By <a
 					href="https://phinocio.com"
 					class="text-blue-600 hover:text-blue-400 active:text-blue-400 dark:text-blue-400 dark:hover:text-blue-600 dark:active:text-blue-600"
-					>Phinocio</a
+					rel="noreferrer noopener"
+					target="_blank">Phinocio</a
 				>
 			</p>
 		</div>

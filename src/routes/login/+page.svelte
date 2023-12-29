@@ -1,8 +1,6 @@
 <script lang="ts">
+	import PasswordIcon from '$lib/components/icons/Password.svelte';
 	import type { ActionData } from './$types';
-
-	let name: string = '';
-	let password: string = '';
 
 	export let form: ActionData;
 </script>
@@ -13,9 +11,9 @@
 
 <div class="justify-startp-5 flex flex-col items-center">
 	<h1 class="text-3xl">Login</h1>
-	<form method="POST" action="?/login" class="mt-5 flex flex-col space-y-4">
-		{#if form?.resp}
-			<p class="font-bold text-red-500">{form.resp.message}</p>
+	<form method="POST" class="mt-5 flex flex-col space-y-4">
+		{#if form?.errMessage}
+			<p class="font-bold text-red-500">{form.errMessage}</p>
 		{/if}
 		{#if form?.missing}<p class="error">The name field is required</p>{/if}
 		<div>
@@ -52,19 +50,9 @@
 		</div>
 		<div>
 			<label for="password" class="relative block"
-				><svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke-width="1.5"
-					stroke="currentColor"
+				><PasswordIcon
 					class="pointer-events-none absolute left-4 top-1/2 h-6 w-6 -translate-y-1/2 transform text-green-500"
-					><path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
-					></path></svg
-				><input
+				/><input
 					type="password"
 					name="password"
 					id="password"
@@ -85,7 +73,8 @@
 		</label>
 
 		<section class="flex items-center justify-between">
-			<a class="text-sm text-gray-400 underline hover:text-gray-600" href="/register">Not Registered?</a><button
+			<a class="text-sm text-gray-400 underline hover:text-gray-600" href="/register">Not Registered?</a>
+			<button
 				type="submit"
 				class="rounded-xl border border-blue-500 px-4 py-2 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white"
 				>Login</button

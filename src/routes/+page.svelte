@@ -1,5 +1,5 @@
 <script>
-	import RecentLists from '$lib/components/lists/RecentLists.svelte';
+	import SimpleList from '$lib/components/lists/SimpleList.svelte';
 
 	export let data;
 
@@ -10,8 +10,8 @@
 	<title>Home - Load Order Library</title>
 </svelte:head>
 
-<div class="gird-rows-2 grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-8">
-	<section class="space-y-4">
+<div class="grid grid-cols-1 gap-10 md:grid-cols-2 md:grid-rows-2 md:gap-8">
+	<article class="space-y-4">
 		<h1 class="mb-4 text-3xl font-bold text-green-500">Load Order Library</h1>
 		<p class="leading-8">
 			Load Order Library is a website/tool to share mod lists of - primarily Bethesda - games with other players.
@@ -21,29 +21,29 @@
 		</p>
 		<footer class="text-center text-xl font-bold">
 			<a
-				href="#"
+				href="/upload"
 				class="text-blue-600 hover:text-blue-400 active:text-blue-400 dark:text-blue-400 dark:hover:text-blue-600 dark:active:text-blue-600"
 				>Create a List</a
 			>
 			|
 			<a
-				href="#"
+				href="/lists"
 				class="text-blue-600 hover:text-blue-400 active:text-blue-400 dark:text-blue-400 dark:hover:text-blue-600 dark:active:text-blue-600"
 				>Browse Lists</a
 			>
 			|
 			<a
-				href="#"
+				href="/compare"
 				class="text-blue-600 hover:text-blue-400 active:text-blue-400 dark:text-blue-400 dark:hover:text-blue-600 dark:active:text-blue-600"
 				>Compare Lists</a
 			>
 		</footer>
-	</section>
+	</article>
 	<section class="row-span-2 space-y-4">
 		<h2 class="text-2xl font-bold">Recent Lists</h2>
 		{#if lists.data.length > 0}
 			{#each lists.data as list}
-				<RecentLists {list} />
+				<SimpleList {list} />
 			{/each}
 		{:else}
 			<p>

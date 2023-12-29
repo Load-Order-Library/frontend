@@ -1,7 +1,8 @@
 import { redirect, type Handle, type HandleFetch } from '@sveltejs/kit';
 import { API_URL } from '$env/static/private';
-import { getUser } from './server/auth';
-import { refreshXSRFToken, useSetCookies } from '$lib/utils/useSetCookies';
+import { getUser } from './lib/auth/user';
+import { refreshXSRFToken } from '$lib/utils/useSetCookies';
+import { handleLoginRedirect } from '$lib/utils/handleLoginRedirect';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.user = await getUser(event);
@@ -10,8 +11,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 		throw redirect(303, '/profile');
 	}
 
+	// Auth protected routes
 	if (!event.locals.user && event.url.pathname.startsWith('/profile')) {
-		throw redirect(303, '/login');
+		throw redirect(303, handleLoginRedirect(event.url));
 	}
 
 	return await resolve(event);

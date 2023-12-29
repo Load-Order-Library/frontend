@@ -1,15 +1,21 @@
 import type { PageServerLoad, Actions } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
-
 import { API_URL } from '$env/static/private';
 import { useSetCookies } from '$lib/utils/useSetCookies';
 
+export const load: PageServerLoad = async ({ locals }) => {
+	// redirect user if logged in
+	if (locals.user) {
+		throw redirect(302, '/profile');
+	}
+};
+
 export const actions = {
-	login: async ({ cookies, request, fetch }) => {
-		const data = await request.formData();
-		const name = data.get('name');
-		const remember = data.get('remember') ?? null;
-		const password = data.get('password');
+	default: async ({ cookies, request, fetch, url }) => {
+		const formData = await request.formData();
+		const name = String(formData.get('name'));
+		const remember = String(formData.get('remember')) ?? null;
+		const password = String(formData.get('password'));
 
 		if (!name) {
 			return fail(400, { name, missing: true });
@@ -28,12 +34,13 @@ export const actions = {
 		const respData = await resp.json();
 
 		if (resp.status !== 200) {
-			return fail(resp.status, { name, incorrect: true, resp: respData });
+			return fail(resp.status, { name, incorrect: true, errMessage: respData.message });
 		}
 
 		// Set the new cookies after logging in
 		await useSetCookies(resp.headers.getSetCookie(), cookies);
 
-		throw redirect(303, '/profile');
+		const redirectTo = url.searchParams.get('redirectTo') ?? '/profile';
+		throw redirect(303, `/${redirectTo.slice(1)}`);
 	},
 } satisfies Actions;
