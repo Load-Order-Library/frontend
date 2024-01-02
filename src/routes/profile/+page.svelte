@@ -1,12 +1,15 @@
 <script lang="ts">
-	import EmailIcon from '$lib/components/icons/Email.svelte';
-	import PasswordIcon from '$lib/components/icons/Password.svelte';
+	import type { PageData } from './$types';
 	import BrowseList from '$lib/components/lists/BrowseList.svelte';
+	import UpdateEmailForm from '$lib/components/auth/UpdateEmailForm.svelte';
+	import UpdatePasswordForm from '$lib/components/auth/UpdatePasswordForm.svelte';
 
-	export let data;
-	export let form;
+	export let data: PageData;
 
-	const { user, lists } = data;
+	// const { user, lists } = data;
+
+	// When we update the email, this then lets the page reacte to that.
+	$: ({ user, lists } = data);
 </script>
 
 <svelte:head>
@@ -42,81 +45,12 @@
 		<section>
 			<h2 class="text-xl font-bold">Update Email</h2>
 			<span class="text-gray-500">To remove the email, submit with the field blank.</span>
-			<form method="post" action="?/updateEmail" class="mt-5 flex flex-col space-y-4">
-				<label for="email" class="relative -z-10 block"
-					><EmailIcon
-						class="pointer-events-none absolute left-4 top-1/2 h-6 w-6 -translate-y-1/2 transform text-green-500"
-					/><input
-						type="email"
-						name="email"
-						id="email"
-						class="w-full rounded-full bg-gray-200 px-4 py-3 pl-14 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#11111b]"
-						placeholder="New Email"
-						value={form?.email ?? user.email}
-						autocomplete="email"
-					/></label
-				>
-				<section class="flex items-center justify-end">
-					<button
-						type="submit"
-						class="rounded-full border-2 border-blue-500 px-4 py-2 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white"
-						>Update Email</button
-					>
-				</section>
-			</form>
+			<p>Your email: {user.email ?? 'N/A'}</p>
+			<UpdateEmailForm data={data.emailUpdateForm} />
 		</section>
 
 		<section>
-			<h2 class="text-xl font-bold">Update Password</h2>
-			<form method="post" action="/profile" class="mt-5 flex flex-col space-y-4">
-				<label for="current_password" class="relative -z-10 block">
-					<PasswordIcon
-						class="pointer-events-none absolute left-4 top-1/2 h-6 w-6 -translate-y-1/2 transform text-green-500"
-					/>
-					<input
-						type="password"
-						name="current_password"
-						id="current_password"
-						class="w-full rounded-full bg-gray-200 px-4 py-3 pl-14 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#11111b]"
-						placeholder="Current Password..."
-						required
-						autocomplete="current-password"
-					/>
-				</label><label for="password" class="relative -z-10 block"
-					><PasswordIcon
-						class="pointer-events-none absolute left-4 top-1/2 h-6 w-6 -translate-y-1/2 transform text-green-500"
-					/>
-					<input
-						type="password"
-						name="password"
-						id="password"
-						class="w-full rounded-full bg-gray-200 px-4 py-3 pl-14 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#11111b]"
-						placeholder="New Password..."
-						required
-						autocomplete="new-password"
-					/>
-				</label>
-				<label for="password-confirm" class="relative -z-10 block"
-					><PasswordIcon
-						class="pointer-events-none absolute left-4 top-1/2 h-6 w-6 -translate-y-1/2 transform text-green-500"
-					/><input
-						type="password"
-						name="password-confirm"
-						id="password-confirm"
-						class="w-full rounded-full bg-gray-200 px-4 py-3 pl-14 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#11111b]"
-						placeholder="Password Confirm..."
-						required
-						autocomplete="new-password"
-					/>
-				</label>
-				<section class="flex items-center justify-end">
-					<button
-						type="submit"
-						class="rounded-full border-2 border-blue-500 px-4 py-2 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white"
-						>Update Password</button
-					>
-				</section>
-			</form>
+			<UpdatePasswordForm data={data.passwordUpdateForm} />
 		</section>
 	</article>
 </div>

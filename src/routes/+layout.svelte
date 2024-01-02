@@ -73,19 +73,19 @@
 						<button
 							on:click={() => (userMenuHidden = !userMenuHidden)}
 							type="button"
-							class="relative z-10 h-12 w-12 rounded-full border-2 border-green-500 bg-light hover:border-green-400 dark:bg-dark"
+							class="relative z-20 h-12 w-12 rounded-full border-2 border-green-500 bg-light hover:border-green-400 dark:bg-dark"
 							>{data.user.name.charAt(0)}</button
 						>
 						<button
 							type="button"
 							aria-labelledby="Close Dropdown"
-							class="fixed inset-0 hidden h-full w-full cursor-default bg-black opacity-50"
+							class="fixed inset-0 z-10 hidden h-full w-full cursor-default bg-black opacity-50"
 							class:hidden={userMenuHidden}
 							on:click={() => (userMenuHidden = !userMenuHidden)}
 							tabindex="-1"
 						></button>
 						<div
-							class="absolute right-0 mt-2 w-48 rounded-lg border border-blue-500 bg-light dark:bg-dark"
+							class="absolute right-0 z-10 mt-2 w-48 rounded-lg border border-blue-500 bg-light dark:bg-dark"
 							class:hidden={userMenuHidden}
 						>
 							<a
@@ -112,7 +112,7 @@
 					<div class="relative mt-4 text-center sm:hidden">
 						<button
 							type="button"
-							class="relative z-10 h-12 w-12 rounded-full border-2 border-green-500 bg-light hover:border-green-400 dark:bg-dark"
+							class=" h-12 w-12 rounded-full border-2 border-green-500 bg-light hover:border-green-400 dark:bg-dark"
 							>{data.user.name.charAt(0)}</button
 						>
 						<div class="mt-2 rounded-lg">

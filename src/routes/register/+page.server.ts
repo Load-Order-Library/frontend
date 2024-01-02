@@ -40,7 +40,7 @@ export const actions = {
 			// response status, an error occurred.
 			if (resp.status !== 201) {
 				// Set the errors as returned from the server. setError is the "proper" way to do this,
-				//but I don't want to loop through multiple things, and username existing is the only
+				// but I don't want to loop through multiple things, and username existing is the only
 				// expected error, but may not be the only returned error in some edges cases I can't
 				// think of atm.
 				form.errors = respData.errors;

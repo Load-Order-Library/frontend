@@ -2,7 +2,7 @@ import type { PageLoad } from './$types';
 import { PUBLIC_API_URL } from '$env/static/public';
 import { error } from '@sveltejs/kit';
 
-export const load: PageLoad = async ({ fetch }) => {
+export const load: PageLoad = async ({ fetch, data }) => {
 	// we only use this endpoint for the api
 	// and don't need to see the page
 
@@ -17,5 +17,5 @@ export const load: PageLoad = async ({ fetch }) => {
 		error(resp.status, lists.message);
 	}
 
-	return { lists, title: 'Meow' };
+	return { lists, title: 'Meow', emailUpdateForm: data.emailUpdateForm, passwordUpdateForm: data.passwordUpdateForm };
 };

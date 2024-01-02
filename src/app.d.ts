@@ -6,7 +6,7 @@ declare global {
 		interface Locals {
 			user: {
 				name: string;
-				email: string;
+				email: string | null;
 			};
 		}
 		// interface PageData {}

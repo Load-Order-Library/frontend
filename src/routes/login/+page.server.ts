@@ -1,37 +1,60 @@
-import type { PageServerLoad, Actions } from './$types';
-import { fail, redirect } from '@sveltejs/kit';
+import type { Actions } from './$types';
+import { error, fail, redirect } from '@sveltejs/kit';
 import { API_URL } from '$env/static/private';
 import { useSetCookies } from '$lib/utils/useSetCookies';
+import { loginSchema } from '$lib/schemas';
+import { superValidate } from 'sveltekit-superforms/server';
+
+export const load = async () => {
+	// Server API:
+	const form = await superValidate(loginSchema);
+
+	return { form };
+};
 
 export const actions = {
 	default: async ({ cookies, request, fetch, url }) => {
-		const formData = await request.formData();
-		const name = String(formData.get('name'));
-		const remember = String(formData.get('remember')) ?? null;
-		const password = String(formData.get('password'));
+		const form = await superValidate(request, loginSchema);
 
-		if (!name) {
-			return fail(400, { name, missing: true });
+		if (!form.valid) {
+			// Clear passwords since we shouldn't return them in the response
+			form.data.password = '';
+			return fail(400, { form });
 		}
 
-		const resp = await fetch(`${API_URL}/login`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json',
-			},
-			credentials: 'include',
-			body: JSON.stringify({ name, password, remember }),
-		});
+		try {
+			const resp = await fetch(`${API_URL}/login`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					Accept: 'application/json',
+				},
+				credentials: 'include',
+				body: JSON.stringify({ ...form.data }),
+			});
 
-		const respData = await resp.json();
+			const respData = await resp.json();
 
-		if (resp.status !== 200) {
-			return fail(resp.status, { name, incorrect: true, errMessage: respData.message });
+			// HTTP 200 is returned on login, if that's not the
+			// response status, an error occurred.
+			if (resp.status !== 200) {
+				// Set the errors as returned from the server. setError is the "proper" way to do this,
+				// but I don't want to loop through multiple things, and username existing is the only
+				// expected error, but may not be the only returned error in some edges cases I can't
+				// think of atm.
+				form.errors = respData.errors;
+
+				// Clear passwords since we shouldn't return them in the response
+				form.data.password = '';
+				return fail(resp.status, { form });
+			}
+
+			// All faliure states have been handled, set the new cookies after logging in
+			await useSetCookies(resp.headers.getSetCookie(), cookies);
+		} catch (err: unknown) {
+			console.log('error occurred:', err);
+			throw error(500, 'Something went wrong.');
 		}
-
-		// Set the new cookies after logging in
-		await useSetCookies(resp.headers.getSetCookie(), cookies);
 
 		const redirectTo = url.searchParams.get('redirectTo') ?? '/profile';
 		throw redirect(303, `/${redirectTo.slice(1)}`);
