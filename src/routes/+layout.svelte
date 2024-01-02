@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { page } from '$app/stores';
 	import '../app.css';
 
@@ -8,6 +8,7 @@
 	import DiscordIcon from '$lib/components/icons/Discord.svelte';
 	import GitHubIcon from '$lib/components/icons/GitHub.svelte';
 	import BlueSkyIcon from '$lib/components/icons/BlueSky.svelte';
+	import { enhance } from '$app/forms';
 
 	export let hidden = true;
 	export let userMenuHidden = true;
@@ -39,7 +40,7 @@
 				type="button"
 				on:click={() => (hidden = !hidden)}
 				aria-label="Toggle menu"
-				class="rounded text-green-500 hover:bg-blue-400 active:bg-blue-400 active:text-white dark:hover:bg-blue-500 dark:active:bg-blue-500 md:hidden"
+				class="rounded text-green-500 hover:bg-blue-400 active:bg-blue-400 active:text-white md:hidden dark:hover:bg-blue-500 dark:active:bg-blue-500"
 			>
 				<MenuIcon class="h-8 w-8" />
 			</button>
@@ -48,7 +49,7 @@
 			class="mt-2 hidden w-full flex-col text-center md:mt-0 md:flex md:flex-row md:items-center md:justify-between"
 			class:hidden
 		>
-			<div class="flex flex-col border-t border-border-light dark:border-border-dark md:flex-row md:border-none">
+			<div class="flex flex-col border-t border-border-light md:flex-row md:border-none dark:border-border-dark">
 				<a
 					href="/upload"
 					class="rounded-xl px-4 py-2 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white"
@@ -69,12 +70,11 @@
 			<div class="flex flex-col md:flex-row">
 				{#if data.user}
 					<div class="relative hidden sm:block">
-						<button on:click={() => (userMenuHidden = !userMenuHidden)} type="button"
-							><img
-								class="relative z-10 h-12 w-12 rounded-full border-2 border-green-500 bg-light hover:opacity-50 dark:bg-dark"
-								src="https://cdn.discordapp.com/attachments/844775429306581022/1187134176437219540/pogatito.png?ex=659f025b&is=658c8d5b&hm=8fbe279aeb7023d0a761143e07b9ff724cadc2b788b991b04822b60c949b92f7&"
-								alt="user profile"
-							/></button
+						<button
+							on:click={() => (userMenuHidden = !userMenuHidden)}
+							type="button"
+							class="relative z-10 h-12 w-12 rounded-full border-2 border-green-500 bg-light hover:border-green-400 dark:bg-dark"
+							>{data.user.name.charAt(0)}</button
 						>
 						<button
 							type="button"
@@ -122,7 +122,7 @@
 								>My Lists</a
 							>
 							<hr class="my-2 border-border-light dark:border-border-dark" />
-							<form method="POST" action="?/logout">
+							<form method="POST" action="?/logout" use:enhance>
 								<button type="button" class="block w-full px-2 py-2 text-center hover:bg-blue-500"
 									>Logout</button
 								>
@@ -131,12 +131,12 @@
 					</div>
 				{:else}
 					<a
-						href="login"
+						href="/login"
 						class="rounded-xl px-4 py-2 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white"
 						>Login</a
 					>
 					<a
-						href="register"
+						href="/register"
 						class="rounded-xl px-4 py-2 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white"
 						>Register</a
 					>
@@ -165,7 +165,7 @@
 				>
 			</p>
 		</div>
-		<hr class="my-4 border-border-light dark:border-border-dark sm:hidden" />
+		<hr class="my-4 border-border-light sm:hidden dark:border-border-dark" />
 		<div class="space-y-2">
 			<p class="font-bold text-green-600 dark:text-green-500">Social</p>
 			<p class="flex justify-center space-x-2">
@@ -188,7 +188,7 @@
 				>
 			</p>
 		</div>
-		<hr class="my-4 border-border-light dark:border-border-dark sm:hidden" />
+		<hr class="my-4 border-border-light sm:hidden dark:border-border-dark" />
 		<div class="space-y-2">
 			<p class="font-bold text-green-600 dark:text-green-500">API Resources</p>
 			<p class="flex justify-center space-x-2">
@@ -200,7 +200,7 @@
 				>
 			</p>
 		</div>
-		<hr class="my-4 border-border-light dark:border-border-dark sm:hidden" />
+		<hr class="my-4 border-border-light sm:hidden dark:border-border-dark" />
 		<div class="space-y-2">
 			<p class="font-bold text-green-600 dark:text-green-500">Support The Site</p>
 			<p class="flex justify-center space-x-2">

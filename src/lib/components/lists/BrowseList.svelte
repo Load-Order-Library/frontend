@@ -90,7 +90,7 @@
 		</section>
 
 		<section class="flex flex-col space-y-2 text-center">
-			{#if list.author?.name === $page.data.user?.name || $page.data.user?.admin}
+			{#if (list.author && list.author?.name === $page.data.user?.name) || $page.data.user?.admin}
 				<a
 					href="/lists/{list.slug}/edit"
 					class="rounded-full border-2 border-blue-500 px-4 py-2 font-bold text-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white"

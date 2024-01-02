@@ -3,13 +3,6 @@ import { fail, redirect } from '@sveltejs/kit';
 import { API_URL } from '$env/static/private';
 import { useSetCookies } from '$lib/utils/useSetCookies';
 
-export const load: PageServerLoad = async ({ locals }) => {
-	// redirect user if logged in
-	if (locals.user) {
-		throw redirect(302, '/profile');
-	}
-};
-
 export const actions = {
 	default: async ({ cookies, request, fetch, url }) => {
 		const formData = await request.formData();

@@ -2,6 +2,7 @@
 	import PasswordIcon from '$lib/components/icons/Password.svelte';
 	import type { ActionData } from './$types';
 	import UserIcon from '$lib/components/icons/User.svelte';
+	import { page } from '$app/stores';
 
 	export let form: ActionData;
 </script>
@@ -10,7 +11,7 @@
 	<title>Login - Load Order Library</title>
 </svelte:head>
 
-<div class="justify-startp-5 flex flex-col items-center">
+<div class=" flex flex-col items-center">
 	<h1 class="text-3xl">Login</h1>
 	<form method="POST" class="mt-5 flex flex-col space-y-4">
 		{#if form?.errMessage}

@@ -23,8 +23,7 @@ export const actions: Actions = {
 		if (resp.status !== 204) {
 			console.error('Logout failed somehow');
 			const data = await resp.json();
-			console.log(data);
-			return fail(resp.status, { incorrect: true });
+			return fail(resp.status, { incorrect: true, errMessage: data.message });
 		}
 
 		// Set the new cookies after logging out

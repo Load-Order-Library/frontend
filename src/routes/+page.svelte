@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import SimpleList from '$lib/components/lists/SimpleList.svelte';
 
 	export let data;
