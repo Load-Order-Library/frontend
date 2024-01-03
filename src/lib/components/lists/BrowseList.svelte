@@ -12,7 +12,7 @@
 		<div class="flex flex-col">
 			<a
 				href="/lists/{list.slug}"
-				class="font-bold text-green-600 hover:text-green-500 active:text-green-500 dark:text-green-500 dark:hover:text-green-600 dark:active:text-green-600 md:text-2xl"
+				class="font-bold text-green-600 hover:text-green-500 active:text-green-500 md:text-2xl dark:text-green-500 dark:hover:text-green-600 dark:active:text-green-600"
 				>{list.name}</a
 			>
 			<p>
@@ -40,7 +40,7 @@
 	<div class=" my-4 flex flex-1 flex-col border-y border-border-light py-4 dark:border-border-dark">
 		<p class="flex-1">{list.description ? list.description.slice(0, 300) + '...' : 'No description provided.'}</p>
 
-		{#if list.readme}
+		<!-- {#if list.readme}
 			<a
 				href="https://{list.readme}"
 				class="flex items-center text-green-600 hover:text-green-500 active:text-green-500 dark:text-green-500 dark:hover:text-green-600 dark:active:text-green-600"
@@ -63,7 +63,7 @@
 				rel="noreferrer noopener"
 				target="_blank">{list.website} <ExternalIcon class="inline h-6 w-6 pl-2" /></a
 			>
-		{/if}
+		{/if} -->
 	</div>
 	<footer class="flex items-end justify-between space-y-1 text-sm text-slate-500 dark:text-slate-500">
 		<section>

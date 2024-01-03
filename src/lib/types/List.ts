@@ -1,5 +1,6 @@
 export type List = {
 	name: string;
+	version: string;
 	links: string[];
 	slug: string;
 	author: { name: string } | null;

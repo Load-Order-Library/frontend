@@ -137,7 +137,7 @@
 					>
 					<a
 						href="/register"
-						class="rounded-xl px-4 py-2 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white"
+						class="rounded-xl py-2 pl-4 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white"
 						>Register</a
 					>
 				{/if}
@@ -154,7 +154,7 @@
 	class="border-t-2 border-green-400 bg-[#dce0e8] text-center text-black dark:border-green-800 dark:bg-[#11111b] dark:text-white"
 >
 	<div class="px-4 py-5 text-center sm:container sm:mx-auto sm:flex sm:justify-between">
-		<div class="space-y-2">
+		<section class="space-y-2">
 			<p class="font-bold text-green-600 dark:text-green-500">Load Order Library</p>
 			<p>
 				Created By <a
@@ -164,9 +164,9 @@
 					target="_blank">Phinocio</a
 				>
 			</p>
-		</div>
+		</section>
 		<hr class="my-4 border-border-light sm:hidden dark:border-border-dark" />
-		<div class="space-y-2">
+		<section class="space-y-2">
 			<p class="font-bold text-green-600 dark:text-green-500">Social</p>
 			<p class="flex justify-center space-x-2">
 				<a
@@ -187,9 +187,9 @@
 					target="_blank"><BlueSkyIcon class="h-6 w-6" /></a
 				>
 			</p>
-		</div>
+		</section>
 		<hr class="my-4 border-border-light sm:hidden dark:border-border-dark" />
-		<div class="space-y-2">
+		<section class="space-y-2">
 			<p class="font-bold text-green-600 dark:text-green-500">API Resources</p>
 			<p class="flex justify-center space-x-2">
 				<a
@@ -199,9 +199,9 @@
 					target="_blank">Documentation</a
 				>
 			</p>
-		</div>
+		</section>
 		<hr class="my-4 border-border-light sm:hidden dark:border-border-dark" />
-		<div class="space-y-2">
+		<section class="space-y-2">
 			<p class="font-bold text-green-600 dark:text-green-500">Support The Site</p>
 			<p class="flex justify-center space-x-2">
 				<a
@@ -216,6 +216,6 @@
 					target="_blank">Ko-fi</a
 				>
 			</p>
-		</div>
+		</section>
 	</div>
 </footer>
