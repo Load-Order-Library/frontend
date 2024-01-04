@@ -1,6 +1,5 @@
 <script>
 	import BrowseList from '$lib/components/lists/BrowseList.svelte';
-	import PasswordIcon from '$lib/components/icons/Password.svelte';
 
 	export let data;
 
@@ -21,7 +20,7 @@
 	{/if}
 </h1>
 
-<div class="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
+<div class="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-10">
 	{#if lists.data.length > 0}
 		{#each lists.data as list}
 			<BrowseList {list} />

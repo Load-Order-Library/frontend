@@ -13,7 +13,7 @@
 <div class="grid grid-cols-1 gap-10 md:grid-cols-2 md:grid-rows-2 md:gap-8">
 	<article class="space-y-4">
 		<h1 class="mb-4 text-3xl font-bold text-green-500">Load Order Library</h1>
-		<p class="leading-8">
+		<p class="text-xl leading-8">
 			Load Order Library is a website/tool to share mod lists of - primarily Bethesda - games with other players.
 			Intended mostly for troubleshooting purposes, the site can be quite useful for YouTubers to have mod lists
 			for each of their let's play characters, modlist authors to share the list of mods with others, and many

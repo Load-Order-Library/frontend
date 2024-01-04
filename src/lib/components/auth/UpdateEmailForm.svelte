@@ -37,7 +37,7 @@
 			bind:value={$form.email}
 			class="w-full rounded-full {$errors?.email
 				? 'border border-red-500'
-				: ''} bg-gray-200 px-4 py-3 pl-14 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#11111b]"
+				: ''} bg-gray-200 px-4 py-3 pl-14 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a]"
 			placeholder="New Email"
 			autocomplete="email"
 			{...$constraints.email}

@@ -29,7 +29,7 @@
 			id="current_password"
 			class="w-full rounded-full {$errors?.current_password && $form.current_password.length > 0
 				? 'border border-red-500'
-				: ''} bg-gray-200 px-4 py-3 pl-14 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#11111b]"
+				: ''} bg-gray-200 px-4 py-3 pl-14 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a]"
 			placeholder="Current Password..."
 			autocomplete="current-password"
 			required
@@ -50,7 +50,7 @@
 			id="password"
 			class="block w-full rounded-full {$errors?.password && $form.password.length > 0
 				? 'border border-red-500'
-				: ''} bg-gray-200 px-4 py-3 pl-14 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#11111b]"
+				: ''} bg-gray-200 px-4 py-3 pl-14 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a]"
 			placeholder="Password..."
 			autocomplete="new-password"
 			required
@@ -76,7 +76,7 @@
 			id="password_confirmation"
 			class="block w-full rounded-full {$errors?.password_confirmation && $form.password_confirmation.length > 0
 				? 'border border-red-500'
-				: ''} bg-gray-200 px-4 py-3 pl-14 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#11111b]"
+				: ''} bg-gray-200 px-4 py-3 pl-14 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a]"
 			placeholder="Password Confirmation..."
 			autocomplete="new-password"
 			required

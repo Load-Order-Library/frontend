@@ -1,27 +1,52 @@
 <script lang="ts">
 	import type { List } from '$lib/types/List';
+	import { format, formatDistanceToNow } from 'date-fns';
 
 	export let list: List;
 </script>
 
-<article class="items-center rounded-xl bg-gray-200 p-4 text-text-light dark:bg-[#11111b] dark:text-text-dark">
-	<h2 class="flex justify-between text-2xl font-bold">
-		<a
-			href="#"
-			class="font-bold text-green-600 hover:text-green-500 active:text-green-500 dark:text-green-500 dark:hover:text-green-600 dark:active:text-green-600"
-			>{list.name}</a
-		>
-		<a
-			href="#"
-			class=" text-sm italic text-blue-600 hover:text-blue-400 active:text-blue-400 dark:text-blue-400 dark:hover:text-blue-600 dark:active:text-blue-600"
-			>{list.game.name}</a
-		>
-	</h2>
-	<span class="text-base">
-		by <a
-			href="#"
-			class=" text-green-600 hover:text-green-500 active:text-green-500 dark:text-green-500 dark:hover:text-green-600 dark:active:text-green-600"
-			>{list.author?.name ?? 'Anonymous'}</a
-		>
-	</span>
+<article class="items-center rounded-xl bg-gray-200 p-4 text-text-light dark:bg-[#26263a] dark:text-text-dark">
+	<header class="flex justify-between">
+		<section class="flex max-w-40 flex-col md:max-w-80">
+			<h1 class="flex justify-start font-bold">
+				<a
+					class="text-xl leading-none text-green-600 hover:text-green-500 md:text-2xl md:leading-none"
+					href="/lists/{list.slug}">{list.name}</a
+				>
+			</h1>
+			<p class="font-bold">{list.version ? 'v' + list.version : ''}</p>
+			<p class="mb-2">
+				by <a
+					class=" text-green-600 hover:text-green-500 active:text-green-500 dark:text-green-500 dark:hover:text-green-600 dark:active:text-green-600"
+					href={list.author?.name ? '/lists?author=' + list.author.name : '/lists'}
+					>Anonymous
+				</a>
+			</p>
+		</section>
+		<section class="flex flex-col items-end justify-between space-y-1">
+			<a class="font-bold text-blue-500 hover:text-blue-600" href="/lists?game={list.game.name}"
+				>{list.game.name}</a
+			>
+			<div class="flex flex-col items-end">
+				<p
+					title={format(new Date(list.created), 'PPpp')}
+					class="flex text-sm text-slate-500 dark:text-slate-500"
+				>
+					Created{' '}
+					{formatDistanceToNow(new Date(list.created), {
+						addSuffix: true,
+					})}
+				</p>
+				<p
+					title={format(new Date(list.updated), 'PPpp')}
+					class="flex text-sm text-slate-500 dark:text-slate-500"
+				>
+					Updated
+					{formatDistanceToNow(new Date(list.updated), {
+						addSuffix: true,
+					})}
+				</p>
+			</div>
+		</section>
+	</header>
 </article>
