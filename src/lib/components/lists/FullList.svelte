@@ -5,17 +5,20 @@
 	import { PUBLIC_API_URL } from '$env/static/public';
 	import PlusIcon from '../icons/Plus.svelte';
 	import DownloadIcon from '../icons/Download.svelte';
-	import { page } from '$app/stores';
-
-	async function fetchList(name: string) {
-		const res = await fetch(`${PUBLIC_API_URL}/v1/files/${name}`);
-
-		if (res.status === 200) {
-			console.log(await res.json());
-		}
-	}
+	import ManageButtons from './ListButtons.svelte';
 
 	export let list: List;
+
+	let showDisabledMods = false;
+
+	// TODO: find better solution for toggline hidden states of lists.
+	let fileToggles: Record<string, { hidden: boolean }> = {};
+
+	if (list.files) {
+		for (const file of list.files) {
+			fileToggles[file.clean_name] = { hidden: true };
+		}
+	}
 </script>
 
 <article class="space-y-8">
@@ -32,7 +35,7 @@
 					by <a
 						class=" text-green-600 hover:text-green-500 active:text-green-500 dark:text-green-500 dark:hover:text-green-600 dark:active:text-green-600"
 						href={list.author?.name ? '/lists?author=' + list.author.name : '/lists'}
-						>Anonymous
+						>{list.author?.name ?? 'Anonymous'}
 					</a>
 				</p>
 				{#if list.website}
@@ -103,26 +106,11 @@
 			</section>
 		</header>
 		<p class="py-4 leading-10 md:text-xl md:leading-10">
-			{list.description} Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus qui veritatis pariatur
-			modi cupiditate architecto perferendis facere non dicta ducimus soluta est, inventore consequatur fuga delectus
-			saepe incidunt quis assumenda.
+			{list.description}
 		</p>
 
-		<section class="flex w-full justify-end space-x-2 text-center">
-			{#if (list.author && list.author?.name === $page.data.user?.name) || $page.data.user?.admin}
-				<a
-					href="/lists/{list.slug}/edit"
-					class="flex rounded-full border border-blue-500 px-4 py-2 text-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white"
-					>Edit List</a
-				>
-				<button
-					on:click={() => alert("Delete list isn't implemented yet.")}
-					type="submit"
-					class="flex rounded-full border border-red-500 px-4 py-2 text-red-500 hover:bg-red-500 hover:text-white active:bg-red-500 active:text-white"
-					>Delete list</button
-				>
-			{/if}
-		</section>
+		<ManageButtons author={list.author} slug={list.slug} />
+
 		<form class="" method="GET" action={PUBLIC_API_URL + '/v1/lists/' + list.slug + '/download'}>
 			<button
 				class="flex rounded-full border border-blue-500 px-4 py-2 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white"
@@ -137,7 +125,13 @@
 				<section class="rounded-xl border border-blue-500 text-text-light dark:text-text-dark">
 					<header class="flex items-center justify-between">
 						<section class="">
-							<button class="mr-2 rounded-l-xl bg-blue-500 p-4 text-white hover:bg-blue-600">
+							<button
+								class="mr-2 {fileToggles[file.clean_name].hidden
+									? 'rounded-l-xl'
+									: 'rounded-tl-xl'} bg-blue-500 p-4 text-white hover:bg-blue-600"
+								on:click={() =>
+									(fileToggles[file.clean_name].hidden = !fileToggles[file.clean_name].hidden)}
+							>
 								<PlusIcon class="inline h-6 w-6 " />
 							</button>
 							<span class="font-bold text-green-600 dark:text-green-500">
@@ -157,25 +151,47 @@
 								method="GET"
 								action={PUBLIC_API_URL + '/v1/lists/' + list.slug + '/download/' + file.clean_name}
 							>
-								<button class="ml-2 rounded-r-xl bg-blue-500 p-4 text-white hover:bg-blue-600"
+								<button
+									class="ml-2 {fileToggles[file.clean_name].hidden
+										? 'rounded-r-xl'
+										: 'rounded-tr-xl'} bg-blue-500 p-4 text-white hover:bg-blue-600"
 									><DownloadIcon class="inline h-6 w-6 " /></button
 								>
 							</form>
 						</section>
 					</header>
-					<ul class="hidden border-t border-green-500" id={file.clean_name}>
-						{#if file.clean_name == 'modlist.txt'}
-							{#each file.content as line, i}
-								<li class="flex items-center even:bg-gray-200 dark:even:bg-[#11111b]">
-									<p
-										class="mr-2 min-w-14 select-none self-stretch bg-blue-500 p-2 text-center text-white"
-									>
-										{i + 1}
+					<ul
+						class="rounded-b-l hidden"
+						id={file.clean_name}
+						class:hidden={fileToggles[file.clean_name].hidden}
+					>
+						{#each file.content as line, i}
+							<li
+								class="flex items-center odd:bg-gray-200 dark:odd:bg-[#11111b]"
+								class:hidden={line.startsWith('-') && !showDisabledMods && !line.endsWith('_separator')}
+							>
+								<p
+									class="{line.endsWith('_separator')
+										? 'hidden'
+										: ''} min-w-14 select-none self-stretch bg-blue-500 p-2 text-center text-white last:rounded-bl-xl"
+								>
+									<span class="rounded-l-xcl">{i + 1}</span>
+								</p>
+
+								<!-- if the line is a separator -->
+								{#if line.endsWith('_separator')}
+									<p class="w-full bg-green-500 py-2 pl-4 text-center font-bold text-white">
+										{line.replace('_separator', '').replace(/^-/, '')}
 									</p>
-									<p>{line}</p>
-								</li>
-							{/each}
-						{/if}
+								{:else if line.startsWith('-')}
+									<p class="w-full bg-red-500 py-2 pl-4 font-bold text-white line-through">
+										{line.replace(/^-/, '')}
+									</p>
+								{:else}
+									<p class="pl-4">{line.replace(/^\+|^-/, '')}</p>
+								{/if}
+							</li>
+						{/each}
 					</ul>
 				</section>
 			{/each}

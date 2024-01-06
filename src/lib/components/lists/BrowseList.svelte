@@ -2,7 +2,7 @@
 	import ExternalIcon from '$lib/components/icons/External.svelte';
 	import { formatDistanceToNow, format } from 'date-fns';
 	import type { List } from '$lib/types/List';
-	import { page } from '$app/stores';
+	import ManageButtons from './ListButtons.svelte';
 
 	export let list: List;
 </script>
@@ -23,7 +23,7 @@
 				by <a
 					class=" text-green-600 hover:text-green-500 active:text-green-500 dark:text-green-500 dark:hover:text-green-600 dark:active:text-green-600"
 					href={list.author?.name ? '/lists?author=' + list.author.name : '/lists'}
-					>Anonymous
+					>{list.author?.name ?? 'Anonymous'}
 				</a>
 			</p>
 			{#if list.website}
@@ -93,22 +93,17 @@
 			</div>
 		</section>
 	</header>
-	<p class=" flex flex-1 flex-col py-4">
-		{list.description ? list.description.slice(0, 300) + '...' : 'No description provided.'}
-	</p>
-	<section class="flex w-full justify-end space-x-2 text-center">
-		{#if (list.author && list.author?.name === $page.data.user?.name) || $page.data.user?.admin}
-			<a
-				href="/lists/{list.slug}/edit"
-				class="rounded-full border border-blue-500 px-4 py-2 text-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white"
-				>Edit List</a
-			>
-			<button
-				on:click={() => alert("Delete list isn't implemented yet.")}
-				type="submit"
-				class="rounded-full border border-red-500 px-4 py-2 text-red-500 hover:bg-red-500 hover:text-white active:bg-red-500 active:text-white"
-				>Delete list</button
-			>
+	<p class="flex flex-1 flex-col">
+		<!-- This is better than nested ternary operators and I refuse to hear otherwise :P -->
+		{#if list.description}
+			{#if list.description.length > 300}
+				{list.description.slice(0, 300) + '...'}
+			{:else}
+				{list.description}
+			{/if}
+		{:else}
+			No description provided.
 		{/if}
-	</section>
+	</p>
+	<ManageButtons author={list.author} slug={list.slug} />
 </article>
