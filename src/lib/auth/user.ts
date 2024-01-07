@@ -3,16 +3,19 @@ import type { RequestEvent } from '@sveltejs/kit';
 
 //TODO: Proper error handling
 export async function getUser(event: RequestEvent) {
-	const resp = await event.fetch(`${API_URL}/v1/user`, {
-		headers: { Accept: 'application/json' },
-		credentials: 'include',
-	});
+	try {
+		const resp = await event.fetch(`${API_URL}/v1/user`, {
+			headers: { Accept: 'application/json' },
+			credentials: 'include',
+		});
 
-	const user = await resp.json();
+		const user = await resp.json();
 
-	if (resp.status !== 200) {
-		return null;
+		if (resp.status !== 200) {
+			return null;
+		}
+		return user.data;
+	} catch (error) {
+		console.log(error);
 	}
-
-	return user.data;
 }

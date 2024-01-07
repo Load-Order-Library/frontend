@@ -11,7 +11,7 @@
 
 	let showDisabledMods = false;
 
-	// TODO: find better solution for toggline hidden states of lists.
+	// TODO: find better solution for toggling hidden states of lists.
 	let fileToggles: Record<string, { hidden: boolean }> = {};
 
 	if (list.files) {
