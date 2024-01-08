@@ -1,6 +1,7 @@
 <script lang="ts">
 	import PasswordIcon from '$lib/components/icons/Password.svelte';
 	import { passwordUpdateSchema, type PasswordUpdateSchema } from '$lib/schemas';
+	import toast from 'svelte-french-toast';
 	import type { SuperValidated } from 'sveltekit-superforms';
 	import { superForm } from 'sveltekit-superforms/client';
 	export let data: SuperValidated<PasswordUpdateSchema>;
@@ -10,6 +11,12 @@
 		validators: passwordUpdateSchema,
 		validationMethod: 'auto',
 		resetForm: true,
+		onUpdated({ form }) {
+			if (form.message) {
+				// At this point it *should* only be a success.
+				toast.success(form.message);
+			}
+		},
 	});
 </script>
 
@@ -36,6 +43,11 @@
 			{...$constraints.current_password}
 		/>
 	</label>
+	{#if $errors?.current_password}
+		{#each $errors.current_password as error}
+			<p class="ml-4 text-sm text-red-500">{error}</p>
+		{/each}
+	{/if}
 	<label for="password" class="relative block"
 		><PasswordIcon
 			class="pointer-events-none absolute left-4 top-1/2 h-6 w-6 -translate-y-1/2 transform {$errors?.password &&

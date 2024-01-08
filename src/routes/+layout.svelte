@@ -9,6 +9,8 @@
 	import GitHubIcon from '$lib/components/icons/GitHub.svelte';
 	import BlueSkyIcon from '$lib/components/icons/BlueSky.svelte';
 	import { enhance } from '$app/forms';
+	import ThemeToggle from '$lib/components/layout/ThemeToggle.svelte';
+	import { Toaster } from 'svelte-french-toast';
 
 	export let hidden = true;
 	export let userMenuHidden = true;
@@ -27,6 +29,25 @@
 	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
 	<meta name="msapplication-TileColor" content="#2b5797" />
 	<meta name="theme-color" content="#ffffff" />
+
+	<script>
+		if (
+			localStorage.theme === 'dark' ||
+			(!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+		) {
+			document.documentElement.classList.add('dark');
+		}
+
+		// This allows something like changing prefers-color-scheme to work right away instead of relying on
+		// a page refresh.
+		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
+			if (localStorage.theme === 'dark' || (!('theme' in localStorage) && event.matches)) {
+				document.documentElement.classList.add('dark');
+			} else {
+				document.documentElement.classList.remove('dark');
+			}
+		});
+	</script>
 </svelte:head>
 
 <header class="mb-6 border-b-2 border-green-400 dark:border-green-800 dark:text-white">
@@ -67,7 +88,7 @@
 				>
 			</div>
 			<hr class="border-border-light dark:border-border-dark" />
-			<div class="flex flex-col md:flex-row">
+			<div class="flex flex-col items-center md:flex-row">
 				{#if data.user}
 					<div class="relative hidden sm:block">
 						<button
@@ -90,18 +111,18 @@
 						>
 							<a
 								aria-current="page"
-								class="active block rounded-t py-2 hover:bg-blue-500 hover:text-white"
+								class=" block py-2 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white"
 								href="/profile">Profile</a
 							><a
 								aria-current="page"
-								class="active block py-2 hover:bg-blue-500 hover:text-white"
+								class="block py-2 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white"
 								href="/profile">My Lists</a
 							>
 							<hr class="my-2 border-border-light dark:border-border-dark" />
 							<form method="POST" action="/logout">
 								<button
 									type="submit"
-									class="block w-full rounded-b py-2 text-center hover:bg-blue-500 hover:text-white"
+									class="block w-full py-2 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white"
 									>Logout</button
 								>
 							</form>
@@ -116,10 +137,9 @@
 							>{data.user.name.charAt(0)}</button
 						>
 						<div class="mt-2 rounded-lg">
-							<a aria-current="page" class="active block px-2 py-2 hover:bg-blue-500" href="/profile"
-								>Profile</a
-							><a aria-current="page" class="active block px-2 py-2 hover:bg-blue-500" href="/profile"
-								>My Lists</a
+							<a class="active block px-2 py-2 hover:bg-blue-500" href="/profile">Profile</a><a
+								class="active block px-2 py-2 hover:bg-blue-500"
+								href="/profile">My Lists</a
 							>
 							<hr class="my-2 border-border-light dark:border-border-dark" />
 							<form method="POST" action="?/logout" use:enhance>
@@ -137,16 +157,20 @@
 					>
 					<a
 						href="/register"
-						class="rounded-xl py-2 pl-4 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white"
+						class="rounded-xl py-2 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white md:pl-4"
 						>Register</a
 					>
 				{/if}
+				<section>
+					<ThemeToggle />
+				</section>
 			</div>
 		</div>
 	</nav>
 </header>
 
 <main class="container mx-auto mb-20 flex h-full flex-grow flex-col px-4 lg:px-20">
+	<Toaster />
 	<slot />
 </main>
 

@@ -54,18 +54,18 @@ export const passwordUpdateSchema = z
 	.object({
 		current_password: z
 			.string({ required_error: 'Current password is required.' })
-			.min(8, { message: 'Current Password must be 8 characters or more.' })
-			.max(72, { message: 'Current Password must be 72 characters or less.' })
+			.min(8, { message: 'Current password must be 8 characters or more.' })
+			.max(72, { message: 'Current password must be 72 characters or less.' })
 			.trim(),
 		password: z
 			.string({ required_error: 'A new password is required.' })
-			.min(8, { message: 'New Password must be 8 characters or more.' })
-			.max(72, { message: 'New Password must be 72 characters or less.' })
+			.min(8, { message: 'New password must be 8 characters or more.' })
+			.max(72, { message: 'New password must be 72 characters or less.' })
 			.trim(),
 		password_confirmation: z
-			.string({ required_error: 'A new password is required.' })
-			.min(8, { message: 'Password must be 8 characters or more.' })
-			.max(72, { message: 'Password must be 72 characters or less.' })
+			.string({ required_error: 'A new password confirmation is required.' })
+			.min(8, { message: 'New password must be 8 characters or more.' })
+			.max(72, { message: 'New password must be 72 characters or less.' })
 			.trim(),
 	})
 	.superRefine(({ password, password_confirmation }, ctx) => {

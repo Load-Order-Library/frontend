@@ -134,9 +134,13 @@
 							>
 								<PlusIcon class="inline h-6 w-6 " />
 							</button>
-							<span class="font-bold text-green-600 dark:text-green-500">
+							<button
+								class="font-bold text-green-600 dark:text-green-500"
+								on:click={() =>
+									(fileToggles[file.clean_name].hidden = !fileToggles[file.clean_name].hidden)}
+							>
 								{file.clean_name}
-							</span>
+							</button>
 						</section>
 						<section>
 							<!-- Undefined here uses the user's browser locale -->

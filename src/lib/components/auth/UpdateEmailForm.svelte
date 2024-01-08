@@ -3,11 +3,11 @@
 	import type { SuperValidated } from 'sveltekit-superforms';
 	import EmailIcon from '$lib/components/icons/Email.svelte';
 	import { emailUpdateSchema, type EmailUpdateSchema } from '$lib/schemas';
-	import toast, { Toaster } from 'svelte-french-toast';
+	import toast from 'svelte-french-toast';
 
 	export let data: SuperValidated<EmailUpdateSchema>;
 
-	const { form, errors, enhance, constraints, message } = superForm(data, {
+	const { form, errors, enhance, constraints } = superForm(data, {
 		taintedMessage: null,
 		validators: emailUpdateSchema,
 		validationMethod: 'auto',
@@ -20,8 +20,6 @@
 		},
 	});
 </script>
-
-<Toaster />
 
 <form method="POST" action="?/updateEmail" class="mt-5 flex flex-col space-y-4" use:enhance>
 	<label for="email" class="relative block"
