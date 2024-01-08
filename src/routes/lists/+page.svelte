@@ -3,6 +3,8 @@
 
 	export let data;
 
+	// The server defaults to 30;
+	let pageSize = 30;
 	$: ({ author, game, lists } = data);
 </script>
 
@@ -18,6 +20,7 @@
 			>{author}</a
 		>
 	{/if}
+	<span class="text-sm">{lists.data.length}</span>
 </h1>
 
 <div class="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-10">
