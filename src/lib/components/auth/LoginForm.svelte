@@ -15,8 +15,6 @@
 	});
 </script>
 
-<SuperDebug data={$form} />
-
 <article class="flex w-full flex-col items-center">
 	<h1 class="text-3xl">Login</h1>
 	<form method="POST" class="mt-5 flex flex-col space-y-4" use:enhance>
@@ -34,9 +32,9 @@
 					aria-invalid={$errors.name ? 'true' : undefined}
 					id="name"
 					bind:value={$form.name}
-					class="block w-full rounded-full {$errors?.name
+					class="w-full rounded-full {$errors?.name
 						? 'border border-red-500'
-						: ''}  bg-gray-200 px-4 py-3 pl-14 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#11111b]"
+						: ''} bg-gray-200 px-4 py-3 pl-14 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a]"
 					placeholder="Username..."
 					autocomplete="name"
 					required
@@ -62,9 +60,9 @@
 					bind:value={$form.password}
 					aria-invalid={$errors.password ? 'true' : undefined}
 					id="password"
-					class="block w-full rounded-full {$errors?.password && $form.password.length > 0
+					class="w-full rounded-full {$errors?.password
 						? 'border border-red-500'
-						: ''} bg-gray-200 px-4 py-3 pl-14 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#11111b]"
+						: ''} bg-gray-200 px-4 py-3 pl-14 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a]"
 					placeholder="Password..."
 					autocomplete="new-password"
 					required

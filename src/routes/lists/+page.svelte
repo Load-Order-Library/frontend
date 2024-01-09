@@ -1,10 +1,11 @@
-<script>
+<script lang="ts">
+	import { goto, invalidate, invalidateAll } from '$app/navigation';
 	import BrowseList from '$lib/components/lists/BrowseList.svelte';
+	import ListPagination from '$lib/components/lists/ListPagination.svelte';
+	import { page } from '$app/stores';
 
 	export let data;
 
-	// The server defaults to 30;
-	let pageSize = 30;
 	$: ({ author, game, lists } = data);
 </script>
 
@@ -20,10 +21,10 @@
 			>{author}</a
 		>
 	{/if}
-	<span class="text-sm">{lists.data.length}</span>
+	<span class="text-base text-green-500">{lists.meta.total} total</span>
 </h1>
 
-<div class="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-10">
+<section class="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-10">
 	{#if lists.data.length > 0}
 		{#each lists.data as list}
 			<BrowseList {list} />
@@ -38,4 +39,6 @@
 			</a>
 		</p>
 	{/if}
-</div>
+</section>
+
+<ListPagination listsMeta={lists.meta} />

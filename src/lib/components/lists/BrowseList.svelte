@@ -22,7 +22,7 @@
 			<p class="mb-2">
 				by <a
 					class=" text-green-600 hover:text-green-500 active:text-green-500 dark:text-green-500 dark:hover:text-green-600 dark:active:text-green-600"
-					href={list.author?.name ? '/lists?author=' + list.author.name : '/lists'}
+					href={list.author?.name ? '/lists?filter[author]=' + list.author.name : '/lists'}
 					>{list.author?.name ?? 'Anonymous'}
 				</a>
 			</p>
@@ -57,7 +57,7 @@
 			{/if}
 		</section>
 		<section class="flex flex-col items-end justify-between space-y-1">
-			<a class="font-bold text-blue-500 hover:text-blue-600" href="/lists?game={list.game.name}"
+			<a class="font-bold text-blue-500 hover:text-blue-600" href="/lists?filter[game]={list.game.name}"
 				>{list.game.name}</a
 			><em class="font-light">{list.private ? 'Private List' : ''}</em>
 			<div class="flex flex-col items-end">

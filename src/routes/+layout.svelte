@@ -157,13 +157,11 @@
 					>
 					<a
 						href="/register"
-						class="rounded-xl py-2 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white md:pl-4"
+						class="rounded-xl px-4 py-2 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white"
 						>Register</a
 					>
 				{/if}
-				<section>
-					<ThemeToggle />
-				</section>
+				<ThemeToggle />
 			</div>
 		</div>
 	</nav>
