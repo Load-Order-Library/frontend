@@ -21,7 +21,7 @@
 			>{author}</a
 		>
 	{/if}
-	<span class="text-base text-green-500">{lists.meta.total} total</span>
+	<span class="text-base text-blue-500">{lists.meta.total} total</span>
 </h1>
 
 <section class="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-10">

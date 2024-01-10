@@ -5,7 +5,10 @@
 	import { PUBLIC_API_URL } from '$env/static/public';
 	import PlusIcon from '../icons/Plus.svelte';
 	import DownloadIcon from '../icons/Download.svelte';
+	import EmbedIcon from '../icons/Embed.svelte';
 	import ManageButtons from './ListButtons.svelte';
+	import FileView from './FileView.svelte';
+	import File from '../icons/File.svelte';
 
 	export let list: List;
 
@@ -17,6 +20,15 @@
 	if (list.files) {
 		for (const file of list.files) {
 			fileToggles[file.clean_name] = { hidden: true };
+		}
+	}
+
+	// TODO: Find better solution for toggling embed dialogs
+	let embedToggles: Record<string, undefined | HTMLDialogElement> = {};
+
+	if (list.files) {
+		for (const file of list.files) {
+			embedToggles[file.clean_name] = undefined;
 		}
 	}
 </script>
@@ -133,7 +145,7 @@
 								{file.clean_name}
 							</button>
 						</section>
-						<section>
+						<section class="flex items-center">
 							<!-- Undefined here uses the user's browser locale -->
 							<span
 								>{(Number(file.bytes) / 1024).toLocaleString(undefined, {
@@ -141,13 +153,18 @@
 									maximumFractionDigits: 2,
 								})} KiB</span
 							>
+							<button
+								class="ml-2 border-r border-border-light bg-blue-500 p-4 text-white dark:border-border-dark"
+								on:click={() => embedToggles[file.clean_name]?.showModal()}
+								><EmbedIcon class="inline h-6 w-6 " /></button
+							>
 							<form
 								class="inline"
 								method="GET"
 								action={PUBLIC_API_URL + '/v1/lists/' + list.slug + '/download/' + file.clean_name}
 							>
 								<button
-									class="ml-2 {fileToggles[file.clean_name].hidden
+									class="{fileToggles[file.clean_name].hidden
 										? 'rounded-r-xl'
 										: 'rounded-tr-xl'} bg-blue-500 p-4 text-white hover:bg-blue-600"
 									><DownloadIcon class="inline h-6 w-6 " /></button
@@ -155,40 +172,39 @@
 							</form>
 						</section>
 					</header>
-					<ul
-						class="rounded-b-l hidden"
-						id={file.clean_name}
-						class:hidden={fileToggles[file.clean_name].hidden}
-					>
-						{#each file.content as line, i}
-							<li
-								class="flex items-center odd:bg-gray-200 dark:odd:bg-[#11111b]"
-								class:hidden={line.startsWith('-') && !showDisabledMods && !line.endsWith('_separator')}
-							>
-								<p
-									class="{line.endsWith('_separator')
-										? 'hidden'
-										: ''} min-w-14 select-none self-stretch bg-blue-500 p-2 text-center text-white last:rounded-bl-xl"
-								>
-									<span class="rounded-l-xcl">{i + 1}</span>
-								</p>
-
-								<!-- if the line is a separator -->
-								{#if line.endsWith('_separator')}
-									<p class="w-full bg-green-500 py-2 pl-4 text-center font-bold text-white">
-										{line.replace('_separator', '').replace(/^-/, '')}
-									</p>
-								{:else if line.startsWith('-')}
-									<p class="w-full bg-red-500 py-2 pl-4 font-bold text-white line-through">
-										{line.replace(/^-/, '')}
-									</p>
-								{:else}
-									<p class="pl-4">{line.replace(/^\+|^-/, '')}</p>
-								{/if}
-							</li>
-						{/each}
-					</ul>
+					<FileView content={file.content} class={fileToggles[file.clean_name].hidden ? 'hidden' : ''} />
 				</section>
+
+				<dialog
+					bind:this={embedToggles[file.clean_name]}
+					class="absolute top-1/4 max-w-3xl space-y-4 rounded-xl border border-border-light bg-light p-4 text-text-light shadow-xl backdrop:bg-black backdrop:opacity-50 backdrop:blur-md dark:border-border-dark dark:bg-dark dark:text-text-dark"
+				>
+					<header class="mb-4 flex justify-between">
+						<h1 class="text-2xl font-bold text-blue-500">Embed {file.clean_name}</h1>
+						<button
+							on:click={() => embedToggles[file.clean_name]?.close()}
+							class="rounded-xl border border-blue-500 px-4 py-2 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white"
+							>X</button
+						>
+					</header>
+
+					<p>
+						If you want to have a quick way for users to view your list on your own site or elsewhere, use
+						this iframe.
+					</p>
+					<p>
+						Feel free to remove the `allow-scripts` from the sandbox attribute. It's used to have the theme
+						of the embed match the user's system theme, collapse separators on modlist.txt, and toggle
+						showing of disabled mods on modlist.txt.
+					</p>
+					<div class="rounded-xl bg-gray-200 p-4 dark:bg-[#26263a]">
+						<code class="text-green-500"
+							>&lt;iframe title="Load Order Library iframe"
+							src="http://testing.lol.wonderland/lists/aaaaaaaaaa-46/embed/{file.clean_name}" width="875"
+							height="1000" sandbox="allow-scripts allow-same-origin" &gt;&lt;/iframe&gt;</code
+						>
+					</div>
+				</dialog>
 			{/each}
 		{/if}
 	</section>

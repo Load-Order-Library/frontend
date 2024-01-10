@@ -8,6 +8,5 @@ export const load: PageLoad = async ({ fetch }) => {
 		credentials: 'include',
 	});
 
-	const lists = await resp.json();
-	return { lists };
+	return { lists: await resp.json() };
 };
