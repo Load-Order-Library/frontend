@@ -10,15 +10,14 @@
 	import BlueSkyIcon from '$lib/components/icons/BlueSky.svelte';
 	import { enhance } from '$app/forms';
 	import ThemeToggle from '$lib/components/layout/ThemeToggle.svelte';
-	import { Toaster } from 'svelte-french-toast';
+	import toast, { Toaster } from 'svelte-french-toast';
 
+	export let data;
 	export let hidden = true;
 	export let userMenuHidden = true;
 
 	$: $page.url && (hidden = true);
 	$: $page.url && (userMenuHidden = true);
-
-	export let data;
 </script>
 
 <svelte:head>
@@ -166,6 +165,8 @@
 		</div>
 	</nav>
 </header>
+
+<noscript>Enabled JS you fuck</noscript>
 
 <main class="container mx-auto mb-20 flex h-full flex-grow flex-col px-4 lg:px-20">
 	<Toaster />

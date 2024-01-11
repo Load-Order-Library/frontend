@@ -6,13 +6,11 @@
 	import PlusIcon from '../icons/Plus.svelte';
 	import DownloadIcon from '../icons/Download.svelte';
 	import EmbedIcon from '../icons/Embed.svelte';
-	import ManageButtons from './ListButtons.svelte';
+	import ManageButtons from './ManageButtons.svelte';
 	import FileView from './FileView.svelte';
-	import File from '../icons/File.svelte';
+	import VerifiedIcon from '../icons/Verified.svelte';
 
 	export let list: List;
-
-	let showDisabledMods = false;
 
 	// TODO: find better solution for toggling hidden states of lists.
 	let fileToggles: Record<string, { hidden: boolean }> = {};
@@ -45,9 +43,10 @@
 				<p class="font-bold">{list.version ? 'v' + list.version : ''}</p>
 				<p class="mb-2">
 					by <a
-						class=" text-green-600 hover:text-green-500 active:text-green-500 dark:text-green-500 dark:hover:text-green-600 dark:active:text-green-600"
+						class=" inline-flex items-center text-green-600 hover:text-green-500 active:text-green-500 dark:text-green-500 dark:hover:text-green-600 dark:active:text-green-600"
 						href={list.author?.name ? '/lists?filter[author]=' + list.author.name : '/lists'}
-						>{list.author?.name ?? 'Anonymous'}
+						>{list.author?.name ?? 'Anonymous'}{#if list.author?.verified}
+							<VerifiedIcon class="ml-1 inline h-4 w-4 text-blue-500" />{/if}
 					</a>
 				</p>
 				{#if list.website}
@@ -81,8 +80,9 @@
 				{/if}
 			</section>
 			<section class="flex flex-col items-end justify-between space-y-1">
-				<a class="font-bold text-blue-500 hover:text-blue-600" href="/lists?filter[game]={list.game.name}"
-					>{list.game.name}</a
+				<a
+					class="font-bold text-blue-500 hover:text-blue-600"
+					href="/lists?filter[game]={list.game.name.replace('&', '%26')}">{list.game.name}</a
 				><span class="italic text-slate-500">{list.private ? 'Private List' : ''}</span>
 				<div class="flex flex-col items-end">
 					<p title={format(new Date(list.created), 'PPpp')} class="flex text-sm text-slate-500">
@@ -112,7 +112,7 @@
 			{list.description}
 		</p>
 
-		<ManageButtons author={list.author} slug={list.slug} />
+		<ManageButtons {list} />
 
 		<form class="" method="GET" action={PUBLIC_API_URL + '/v1/lists/' + list.slug + '/download'}>
 			<button

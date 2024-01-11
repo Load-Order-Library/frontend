@@ -101,8 +101,7 @@
 		{/each}
 	{/if}
 
-	<section class="flex items-center justify-between">
-		<a class="text-sm text-gray-400 underline hover:text-gray-600" href="/register">Not Registered?</a>
+	<section class="flex items-center justify-end">
 		<button
 			type="submit"
 			class="rounded-full border border-blue-500 px-4 py-2 hover:bg-blue-500 hover:text-white active:bg-blue-500 active:text-white"

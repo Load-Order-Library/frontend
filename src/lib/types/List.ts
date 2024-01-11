@@ -3,7 +3,7 @@ export type List = {
 	version: string;
 	links: string[];
 	slug: string;
-	author: { name: string } | null;
+	author: { name: string; verified: boolean } | null;
 	description: string;
 	website: string;
 	discord: string;

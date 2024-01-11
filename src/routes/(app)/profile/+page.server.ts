@@ -21,7 +21,7 @@ export const actions = {
 			return fail(400, { emailUpdateForm });
 		}
 
-		if (emailUpdateForm.data.email == locals.user.email) {
+		if (emailUpdateForm.data.email === locals.user?.email) {
 			return message(emailUpdateForm, 'This is already your email.');
 		}
 
@@ -54,7 +54,7 @@ export const actions = {
 			}
 
 			// Only need to update the email, saves a request to get all the new data.
-			locals.user.email = emailUpdateForm.data.email ?? null;
+			locals.user!.email = emailUpdateForm.data.email ?? null;
 
 			return message(emailUpdateForm, 'Email successfully updated!');
 		} catch (err: unknown) {

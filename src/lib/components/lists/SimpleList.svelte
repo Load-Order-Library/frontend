@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { List } from '$lib/types/List';
 	import { format, formatDistanceToNow } from 'date-fns';
+	import VerifiedIcon from '../icons/Verified.svelte';
 
 	export let list: List;
 </script>
@@ -17,15 +18,17 @@
 			<p class="font-bold">{list.version ? 'v' + list.version : ''}</p>
 			<p class="mb-2">
 				by <a
-					class=" text-green-600 hover:text-green-500 active:text-green-500 dark:text-green-500 dark:hover:text-green-600 dark:active:text-green-600"
-					href={list.author?.name ? '/lists?author=' + list.author.name : '/lists'}
-					>Anonymous
+					class=" inline-flex items-center text-green-600 hover:text-green-500 active:text-green-500 dark:text-green-500 dark:hover:text-green-600 dark:active:text-green-600"
+					href={list.author?.name ? '/lists?filter[author]=' + list.author.name : '/lists'}
+					>{list.author?.name ?? 'Anonymous'}{#if list.author?.verified}
+						<VerifiedIcon class="ml-1 inline h-4 w-4 text-blue-500" />{/if}
 				</a>
 			</p>
 		</section>
 		<section class="flex flex-col items-end justify-between space-y-1">
-			<a class="font-bold text-blue-500 hover:text-blue-600" href="/lists?game={list.game.name}"
-				>{list.game.name}</a
+			<a
+				class="font-bold text-blue-500 hover:text-blue-600"
+				href="/lists?filter[game]={list.game.name.replace('&', '%26')}">{list.game.name}</a
 			>
 			<div class="flex flex-col items-end">
 				<p

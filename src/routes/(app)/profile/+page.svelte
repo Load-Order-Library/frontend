@@ -3,8 +3,11 @@
 	import BrowseList from '$lib/components/lists/BrowseList.svelte';
 	import UpdateEmailForm from '$lib/components/auth/UpdateEmailForm.svelte';
 	import UpdatePasswordForm from '$lib/components/auth/UpdatePasswordForm.svelte';
+	import type { ActionData } from '../lists/[slug]/delete/$types';
 
 	export let data: PageData;
+
+	export let form: ActionData;
 
 	// const { user, lists } = data;
 
@@ -16,7 +19,7 @@
 	<title>Profile - Load Order Library</title>
 </svelte:head>
 
-<h1 class="mb-4 text-3xl font-bold">Hello, {user.name}</h1>
+<h1 class="mb-4 text-3xl font-bold">Hello, {user?.name}</h1>
 
 <div class="grid gap-10 md:grid-cols-3">
 	<article class="col-span-2">
@@ -45,7 +48,7 @@
 		<section>
 			<h2 class="text-xl font-bold">Update Email</h2>
 			<span class="text-gray-500">To remove the email, submit with the field blank.</span>
-			<p>Your email: {user.email ?? 'N/A'}</p>
+			<p>Your email: {user?.email ?? 'N/A'}</p>
 			<UpdateEmailForm data={data.emailUpdateForm} />
 		</section>
 

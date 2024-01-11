@@ -2,8 +2,13 @@
 
 -   Upload form
 -   Edit form
--   Deletion
 -   Triple check iframe security stuff
+-   Ampersand in game name is breaking URL (probably just wrap game names in `encodeURIComponent()`)
+
+# User
+
+-   Generating/deleting API tokens
+-   2FA
 
 # General
 
