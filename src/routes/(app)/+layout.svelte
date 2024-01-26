@@ -10,7 +10,7 @@
 	import BlueSkyIcon from '$lib/components/icons/BlueSky.svelte';
 	import { enhance } from '$app/forms';
 	import ThemeToggle from '$lib/components/layout/ThemeToggle.svelte';
-	import toast, { Toaster } from 'svelte-french-toast';
+	import { Toaster } from 'svelte-french-toast';
 
 	export let data;
 	export let hidden = true;

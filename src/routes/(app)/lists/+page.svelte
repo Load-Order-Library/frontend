@@ -1,8 +1,6 @@
 <script lang="ts">
-	import { goto, invalidate, invalidateAll } from '$app/navigation';
 	import BrowseList from '$lib/components/lists/BrowseList.svelte';
 	import ListPagination from '$lib/components/lists/ListPagination.svelte';
-	import { page } from '$app/stores';
 
 	export let data;
 

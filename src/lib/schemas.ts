@@ -78,7 +78,21 @@ export const passwordUpdateSchema = z
 		}
 	});
 
+export const uploadSchema = z.object({
+	name: z
+		.string({ required_error: 'Name is required.' })
+		.min(1, { message: 'Name is required.' })
+		.max(32, { message: 'Name must be 32 characters or less.' })
+		.trim(),
+	description: z
+		.string({ required_error: 'Password is required.' })
+		.min(8, { message: 'Password must be 8 characters or more.' })
+		.max(72, { message: 'Password must be 72 characters or less.' })
+		.trim(),
+});
+
 export type RegisterSchema = typeof registerSchema;
 export type LoginSchema = typeof loginSchema;
 export type EmailUpdateSchema = typeof emailUpdateSchema;
 export type PasswordUpdateSchema = typeof passwordUpdateSchema;
+export type UploadSchema = typeof uploadSchema;

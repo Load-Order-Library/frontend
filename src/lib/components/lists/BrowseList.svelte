@@ -1,5 +1,4 @@
 <script lang="ts">
-	import ExternalIcon from '$lib/components/icons/External.svelte';
 	import { formatDistanceToNow, format } from 'date-fns';
 	import type { List } from '$lib/types/List';
 	import ManageButtons from './ManageButtons.svelte';
@@ -40,36 +39,6 @@
 				</a>
 			</p>
 		</section>
-
-		<!-- {#if list.website}
-			<a
-				href={list.website}
-				class="flex items-center text-green-600 hover:text-green-500 active:text-green-500 dark:text-green-500 dark:hover:text-green-600 dark:active:text-green-600"
-				rel="noreferrer noopener"
-				target="_blank"
-				>{list.website} <ExternalIcon class="inline h-6 w-6 pl-2" />
-			</a>
-		{/if}
-
-		{#if list.readme}
-			<a
-				href={list.readme}
-				class="flex items-center text-green-600 hover:text-green-500 active:text-green-500 dark:text-green-500 dark:hover:text-green-600 dark:active:text-green-600"
-				rel="noreferrer noopener"
-				target="_blank"
-				>{list.readme} <ExternalIcon class="inline h-6 w-6 pl-2" />
-			</a>
-		{/if}
-
-		{#if list.discord}
-			<a
-				href={list.discord}
-				class="flex items-center text-green-600 hover:text-green-500 active:text-green-500 dark:text-green-500 dark:hover:text-green-600 dark:active:text-green-600"
-				rel="noreferrer noopener"
-				target="_blank"
-				>{list.discord}<ExternalIcon class="inline h-6 w-6 pl-2" />
-			</a>
-		{/if} -->
 	</header>
 	<p class="flex flex-1">
 		<!-- This is better than nested ternary operators and I refuse to hear otherwise :P -->
