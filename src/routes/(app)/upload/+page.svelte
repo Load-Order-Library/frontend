@@ -4,7 +4,7 @@
 	import UserIcon from '$lib/components/icons/User.svelte';
 	import GameControllerIcon from '$lib/components/icons/GameController.svelte';
 	import { uploadSchema, type UploadSchema } from '$lib/schemas';
-	import type { PageData } from '../$types';
+	import type { PageData } from './$types';
 
 	export let data: PageData;
 	export let formData: SuperValidated<UploadSchema>;
@@ -94,6 +94,17 @@
 						<option value={game.id}>{game.name}</option>
 					{/each}
 				</select>
+			</label>
+
+			<label for="description" class="relative block">
+				<textarea
+					name="description"
+					id="description"
+					bind:value={$form.description}
+					class="w-full rounded-xl bg-gray-200 px-4 py-3 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a]"
+					placeholder="Description..."
+					{...$constraints.description}
+				/>
 			</label>
 		</section>
 	</form>

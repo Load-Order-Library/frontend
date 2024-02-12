@@ -84,11 +84,24 @@ export const uploadSchema = z.object({
 		.min(1, { message: 'Name is required.' })
 		.max(32, { message: 'Name must be 32 characters or less.' })
 		.trim(),
-	description: z
-		.string({ required_error: 'Password is required.' })
-		.min(8, { message: 'Password must be 8 characters or more.' })
-		.max(72, { message: 'Password must be 72 characters or less.' })
-		.trim(),
+	description: z.string().trim().optional(),
+	game: z.string().trim(),
+	version: z.string().trim().optional(),
+	readme: z.string().trim().optional(),
+	website: z.string().trim().optional(),
+	discord: z.string().trim().optional(),
+	expires: z.string().trim().optional(),
+	private: z.string().trim().optional(),
+	files: z.any().refine(
+		(files) =>
+			files?.array.forEach((file: File) => {
+				file.size <= 512;
+			}),
+		{
+			message: 'File size must be less than 512KB.',
+			path: ['files'],
+		}
+	),
 });
 
 export type RegisterSchema = typeof registerSchema;

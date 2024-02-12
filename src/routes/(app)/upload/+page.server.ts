@@ -1,7 +1,4 @@
-import { API_URL } from '$env/static/private';
-import { error, fail } from '@sveltejs/kit';
-import type { Actions } from './$types';
-import { message, superValidate } from 'sveltekit-superforms/server';
+import { superValidate } from 'sveltekit-superforms/server';
 import { uploadSchema } from '$lib/schemas';
 
 export const load = async () => {
