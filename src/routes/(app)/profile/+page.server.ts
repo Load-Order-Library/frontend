@@ -21,7 +21,7 @@ export const actions = {
 			return fail(400, { emailUpdateForm });
 		}
 
-		if (emailUpdateForm.data.email === locals.user?.email) {
+		if (emailUpdateForm.data.email == locals.user?.email) {
 			return message(emailUpdateForm, 'This is already your email.');
 		}
 

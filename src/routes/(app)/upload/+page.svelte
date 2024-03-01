@@ -1,15 +1,16 @@
 <script lang="ts">
 	import { superForm } from 'sveltekit-superforms/client';
-	import type { SuperValidated } from 'sveltekit-superforms';
 	import UserIcon from '$lib/components/icons/User.svelte';
 	import GameControllerIcon from '$lib/components/icons/GameController.svelte';
 	import { uploadSchema, type UploadSchema } from '$lib/schemas';
 	import type { PageData } from './$types';
+	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
+	import { page } from '$app/stores';
+	import TimeIcon from '$lib/components/icons/Time.svelte';
 
 	export let data: PageData;
-	export let formData: SuperValidated<UploadSchema>;
 
-	const { form, errors, enhance, constraints } = superForm(formData, {
+	const { form, errors, enhance, constraints } = superForm(data.form, {
 		taintedMessage: null,
 		validators: uploadSchema,
 		validationMethod: 'auto',
@@ -19,7 +20,7 @@
 <svelte:head>
 	<title>Upload - Load Order Library</title>
 </svelte:head>
-
+<SuperDebug data={$form} />
 <h1 class="mb-4 text-3xl font-bold">Upload a List</h1>
 
 <article class="grid grid-cols-2 gap-10">
@@ -49,6 +50,11 @@
 						{...$constraints.name}
 					/>
 				</label>
+				{#if $errors?.name}
+					{#each $errors?.name as error}
+						<p class="ml-4 text-sm text-red-500">{error}</p>
+					{/each}
+				{/if}
 				<label for="name" class="relative block">
 					<UserIcon
 						class="pointer-events-none absolute left-4 top-1/2 h-6 w-6 -translate-y-1/2 transform {$errors?.name
@@ -97,13 +103,41 @@
 					</select>
 				</label>
 
+				<label for="name" class="relative block">
+					<TimeIcon
+						class="pointer-events-none absolute left-4 top-1/2 h-6 w-6 -translate-y-1/2 transform {$errors?.name
+							? 'text-red-500'
+							: 'text-green-500'}"
+					/>
+
+					<select
+						name="expires"
+						aria-invalid={$errors.expires ? 'true' : undefined}
+						id="expires"
+						bind:value={$form.expires}
+						class="w-full rounded-full {$errors?.expires
+							? 'border border-red-500'
+							: ''} appearance-none bg-gray-200 px-4 py-3 pl-14 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a]"
+						placeholder="Version (optional)..."
+						required
+						{...$constraints.expires}
+					>
+						<option value="3h">3 Hours</option>
+						<option value="24h" selected={!$page.data.user ? true : false}>24 Hours</option>
+						<option value="3d">3 Days</option>
+						<option value="1w">1 Week</option>
+						<option value="perm" selected={$page.data.user ? true : false}>Permanent</option>
+					</select>
+				</label>
+
 				<label for="description" class="relative block">
 					<textarea
 						name="description"
 						id="description"
 						bind:value={$form.description}
 						class="w-full rounded-xl bg-gray-200 px-4 py-3 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a]"
-						placeholder="Description..."
+						placeholder="Description... (optional)"
+						rows="5"
 						{...$constraints.description}
 					/>
 				</label>

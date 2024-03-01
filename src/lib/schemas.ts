@@ -85,7 +85,7 @@ export const uploadSchema = z.object({
 		.max(32, { message: 'Name must be 32 characters or less.' })
 		.trim(),
 	description: z.string().trim().optional(),
-	game: z.string().trim(),
+	game: z.number({ required_error: 'A game is required.' }).default('' as unknown as number),
 	version: z.string().trim().optional(),
 	readme: z.string().trim().optional(),
 	website: z.string().trim().optional(),
