@@ -7,6 +7,10 @@
 	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 	import { page } from '$app/stores';
 	import TimeIcon from '$lib/components/icons/Time.svelte';
+	import BrowserIcon from '$lib/components/icons/Browser.svelte';
+	import GitBranchIcon from '$lib/components/icons/GitBranch.svelte';
+	import DiscordIcon from '$lib/components/icons/Discord.svelte';
+	import BookOpenIcon from '$lib/components/icons/BookOpen.svelte';
 
 	export let data: PageData;
 
@@ -26,7 +30,7 @@
 <article class="grid grid-cols-2 gap-10">
 	<section class="flex flex-col">
 		<h2 class="text-3xl">List Info</h2>
-		<form method="POST" class="mt-5 flex flex-col space-y-4" use:enhance>
+		<form method="POST" class="mt-5 flex flex-col space-y-4" use:enhance enctype="multipart/form-data">
 			<section class="space-y-4">
 				<label for="name" class="relative block">
 					<UserIcon
@@ -56,7 +60,7 @@
 					{/each}
 				{/if}
 				<label for="name" class="relative block">
-					<UserIcon
+					<GitBranchIcon
 						class="pointer-events-none absolute left-4 top-1/2 h-6 w-6 -translate-y-1/2 transform {$errors?.name
 							? 'text-red-500'
 							: 'text-green-500'}"
@@ -76,6 +80,11 @@
 						{...$constraints.version}
 					/>
 				</label>
+				{#if $errors?.version}
+					{#each $errors?.version as error}
+						<p class="ml-4 text-sm text-red-500">{error}</p>
+					{/each}
+				{/if}
 
 				<label for="name" class="relative block">
 					<GameControllerIcon
@@ -129,6 +138,92 @@
 						<option value="perm" selected={$page.data.user ? true : false}>Permanent</option>
 					</select>
 				</label>
+				{#if $errors?.expires}
+					{#each $errors?.expires as error}
+						<p class="ml-4 text-sm text-red-500">{error}</p>
+					{/each}
+				{/if}
+
+				<label for="name" class="relative block">
+					<BrowserIcon
+						class="pointer-events-none absolute left-4 top-1/2 h-6 w-6 -translate-y-1/2 transform {$errors?.name
+							? 'text-red-500'
+							: 'text-green-500'}"
+					/>
+
+					<input
+						type="text"
+						name="website"
+						aria-invalid={$errors.website ? 'true' : undefined}
+						id="website"
+						bind:value={$form.website}
+						class="w-full rounded-full {$errors?.website
+							? 'border border-red-500'
+							: ''} bg-gray-200 px-4 py-3 pl-14 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a]"
+						placeholder="Website (optional)..."
+						required
+						{...$constraints.website}
+					/>
+				</label>
+				{#if $errors?.website}
+					{#each $errors?.website as error}
+						<p class="ml-4 text-sm text-red-500">{error}</p>
+					{/each}
+				{/if}
+
+				<label for="name" class="relative block">
+					<DiscordIcon
+						class="pointer-events-none absolute left-4 top-1/2 h-6 w-6 -translate-y-1/2 transform {$errors?.name
+							? 'text-red-500'
+							: 'text-green-500'}"
+					/>
+
+					<input
+						type="text"
+						name="discord"
+						aria-invalid={$errors.discord ? 'true' : undefined}
+						id="discord"
+						bind:value={$form.discord}
+						class="w-full rounded-full {$errors?.discord
+							? 'border border-red-500'
+							: ''} bg-gray-200 px-4 py-3 pl-14 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a]"
+						placeholder="Discord (optional)..."
+						required
+						{...$constraints.discord}
+					/>
+				</label>
+				{#if $errors?.discord}
+					{#each $errors?.discord as error}
+						<p class="ml-4 text-sm text-red-500">{error}</p>
+					{/each}
+				{/if}
+
+				<label for="name" class="relative block">
+					<BookOpenIcon
+						class="pointer-events-none absolute left-4 top-1/2 h-6 w-6 -translate-y-1/2 transform {$errors?.name
+							? 'text-red-500'
+							: 'text-green-500'}"
+					/>
+
+					<input
+						type="text"
+						name="readme"
+						aria-invalid={$errors.readme ? 'true' : undefined}
+						id="readme"
+						bind:value={$form.readme}
+						class="w-full rounded-full {$errors?.readme
+							? 'border border-red-500'
+							: ''} bg-gray-200 px-4 py-3 pl-14 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a]"
+						placeholder="README (optional)..."
+						required
+						{...$constraints.readme}
+					/>
+				</label>
+				{#if $errors?.readme}
+					{#each $errors?.readme as error}
+						<p class="ml-4 text-sm text-red-500">{error}</p>
+					{/each}
+				{/if}
 
 				<label for="description" class="relative block">
 					<textarea
@@ -141,6 +236,39 @@
 						{...$constraints.description}
 					/>
 				</label>
+				{#if $errors?.description}
+					{#each $errors?.description as error}
+						<p class="ml-4 text-sm text-red-500">{error}</p>
+					{/each}
+				{/if}
+
+				<label for="files" class="relative block">
+					<input
+						type="file"
+						name="files"
+						id="files"
+						accept=".txt, .ini"
+						class="w-full rounded-full bg-gray-200 px-4 py-3 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a]"
+						multiple
+						required
+						on:input={(e) => ($form.files = Array.from(e.currentTarget.files ?? []))}
+					/>
+				</label>
+				{#if $errors?.files}
+					<p class="ml-4 text-sm text-red-500">{$errors.files}</p>
+				{/if}
+
+				{#if $form.files}
+					{#each $form.files as file}
+						<p>{file.name}</p>
+						<p>
+							{(Number(file.size) / 1024).toLocaleString(undefined, {
+								minimumFractionDigits: 2,
+								maximumFractionDigits: 2,
+							})} KiB
+						</p>
+					{/each}
+				{/if}
 			</section>
 		</form>
 	</section>

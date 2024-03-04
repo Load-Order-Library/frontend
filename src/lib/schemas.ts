@@ -92,16 +92,10 @@ export const uploadSchema = z.object({
 	discord: z.string().trim().optional(),
 	expires: z.string().trim().optional(),
 	private: z.string().trim().optional(),
-	files: z.any().refine(
-		(files) =>
-			files?.array.forEach((file: File) => {
-				file.size <= 512;
-			}),
-		{
-			message: 'File size must be less than 512KB.',
-			path: ['files'],
-		}
-	),
+	files: z
+		.instanceof(File, { message: 'Please upload a file.' })
+		.refine((f) => f.size < 100_000, 'Max 100 kB upload size.')
+		.array(),
 });
 
 export type RegisterSchema = typeof registerSchema;
