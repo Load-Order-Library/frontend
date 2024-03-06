@@ -92,7 +92,7 @@ export const uploadSchema = z.object({
 	discord: z.string().trim().optional(),
 	expires: z.string().trim().optional(),
 	private: z.boolean().optional(),
-	files: z
+	'files[]': z
 		.instanceof(File, { message: 'Please upload a file.' })
 		.refine((f) => f.size < 512000, 'Max 512 kB upload size.')
 		.refine((f) => f.size > 0, 'File must not be empty.')

@@ -1,7 +1,7 @@
 import { superValidate, withFiles } from 'sveltekit-superforms/server';
 import { uploadSchema } from '$lib/schemas';
 import { API_URL } from '$env/static/private';
-import { fail, type Actions } from '@sveltejs/kit';
+import { fail, type Actions, redirect, error } from '@sveltejs/kit';
 import { zod } from 'sveltekit-superforms/adapters';
 
 export const load = async () => {
@@ -25,25 +25,29 @@ export const actions = {
 			return fail(400, withFiles({ form }));
 		}
 
-		const resp = await fetch(`${API_URL}/v1/lists`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json',
-			},
-			credentials: 'include',
-			body: JSON.stringify({ ...form.data }),
-		});
+		let slug = '';
+		try {
+			const resp = await fetch(`${API_URL}/v1/lists`, {
+				method: 'POST',
+				headers: {
+					// 'Content-Type': request.headers.get('content-type'),
+					Accept: 'application/json',
+				},
+				credentials: 'include',
+				body: formData,
+			});
 
-		if (resp.status !== 201) {
-			console.log(await resp.json());
-			return fail(resp.status, withFiles({ form }));
+			if (resp.status !== 201) {
+				return fail(resp.status, withFiles({ form }));
+			}
+
+			const data = await resp.json();
+			slug = data.data.slug;
+		} catch (err) {
+			console.log('upload error occurred:', err);
+			throw error(500, 'Something went wrong uploading.');
 		}
 
-		const data = await resp.json();
-
-		console.log(data);
-
-		return withFiles({ form });
+		redirect(303, `/lists/${slug}`);
 	},
 } satisfies Actions;

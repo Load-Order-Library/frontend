@@ -2,9 +2,8 @@
 	import { superForm } from 'sveltekit-superforms/client';
 	import UserIcon from '$lib/components/icons/User.svelte';
 	import GameControllerIcon from '$lib/components/icons/GameController.svelte';
-	import { uploadSchema, type UploadSchema } from '$lib/schemas';
+	import { uploadSchema } from '$lib/schemas';
 	import type { PageData } from './$types';
-	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 	import { page } from '$app/stores';
 	import TimeIcon from '$lib/components/icons/Time.svelte';
 	import BrowserIcon from '$lib/components/icons/Browser.svelte';
@@ -21,14 +20,11 @@
 		validators: zodClient(uploadSchema),
 		validationMethod: 'auto',
 	});
-
-	$: console.log($errors.files);
 </script>
 
 <svelte:head>
 	<title>Upload - Load Order Library</title>
 </svelte:head>
-<!-- <SuperDebug data={$form} /> -->
 <h1 class="mb-4 text-3xl font-bold">Upload a List</h1>
 
 <article class="grid grid-cols-1 gap-10 md:grid-cols-6">
@@ -245,41 +241,20 @@
 				<label for="files" class="relative block">
 					<input
 						type="file"
-						name="files"
+						name="files[]"
 						id="files"
 						accept=".txt, .ini"
 						class="w-full rounded-full bg-gray-200 px-4 py-3 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a]"
 						multiple
 						required
-						on:input={(e) => ($form.files = Array.from(e.currentTarget.files ?? []))}
+						on:input={(e) => ($form['files[]'] = Array.from(e.currentTarget.files ?? []))}
 					/>
 				</label>
-				{#if $errors?.files}
-					{#each Object.entries($errors?.files) as [index, error]}
+				{#if $errors['files[]']}
+					{#each Object.entries($errors['files[]']) as [index, error]}
 						<p class="ml-4 text-sm text-red-500">File {Number(index) + 1}: {error}</p>
 					{/each}
 				{/if}
-
-				<!-- {#if $form.files}
-					{#each $form.files as file}
-						<section
-							class="flex w-full justify-between bg-gray-200 px-4 py-3 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a]"
-						>
-							<p>
-								<FileIcon class="inline h-6 w-6 text-green-500" />
-								{file.name}
-							</p>
-							<p>
-								<span>
-									{(Number(file.size) / 1024).toLocaleString(undefined, {
-										minimumFractionDigits: 2,
-										maximumFractionDigits: 2,
-									})} KiB
-								</span>
-							</p>
-						</section>
-					{/each}
-				{/if} -->
 			</section>
 			<section class="flex justify-between">
 				<button
@@ -305,36 +280,9 @@
 
 	<section class="col-span-2">
 		<h2 class="mb-5 text-3xl">Files</h2>
-		<!--		<ul class="md:text-right">
-			<li>enblocal.ini</li>
-			<li>enbseries.ini</li>
-			<li>fallout.ini</li>
-			<li>falloutprefs.ini</li>
-			<li>fallout4.ini</li>
-			<li>fallout4custom.ini</li>
-			<li>fallout4prefs.ini</li>
-			<li>falloutcustom.ini</li>
-			<li>geckcustom.ini</li>
-			<li>geckprefs.ini</li>
-			<li>loadorder.txt</li>
-			<li>mge.ini</li>
-			<li>modlist.txt</li>
-			<li>morrowind.ini</li>
-			<li>mwse-version.ini</li>
-			<li>oblivion.ini</li>
-			<li>oblivionprefs.ini</li>
-			<li>plugins.txt</li>
-			<li>settings.ini</li>
-			<li>skyrim.ini</li>
-			<li>skyrimcustom.ini</li>
-			<li>skyrimprefs.ini</li>
-			<li>skyrimvr.ini</li>
-			<li>starfield.ini</li>
-			<li>starfieldcustom.ini</li>
-			<li>starfieldprefs.ini</li>
-		</ul> -->
-		{#if $form.files.length > 0}
-			{#each $form.files as file}
+
+		{#if $form['files[]'].length > 0}
+			{#each $form['files[]'] as file}
 				<section
 					class="mt-5 flex w-full justify-between bg-gray-200 px-4 py-3 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a]"
 				>

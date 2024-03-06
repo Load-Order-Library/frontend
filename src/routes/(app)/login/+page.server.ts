@@ -4,17 +4,18 @@ import { API_URL } from '$env/static/private';
 import { useSetCookies } from '$lib/utils/useSetCookies';
 import { loginSchema } from '$lib/schemas';
 import { superValidate } from 'sveltekit-superforms/server';
+import { zod } from 'sveltekit-superforms/adapters';
 
 export const load = async () => {
 	// Server API:
-	const form = await superValidate(loginSchema);
+	const form = await superValidate(zod(loginSchema));
 
 	return { form };
 };
 
 export const actions = {
 	default: async ({ cookies, request, fetch, url }) => {
-		const form = await superValidate(request, loginSchema);
+		const form = await superValidate(request, zod(loginSchema));
 
 		if (!form.valid) {
 			// Clear passwords since we shouldn't return them in the response
