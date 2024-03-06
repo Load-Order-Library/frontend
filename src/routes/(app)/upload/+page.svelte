@@ -11,24 +11,28 @@
 	import GitBranchIcon from '$lib/components/icons/GitBranch.svelte';
 	import DiscordIcon from '$lib/components/icons/Discord.svelte';
 	import BookOpenIcon from '$lib/components/icons/BookOpen.svelte';
+	import { zodClient } from 'sveltekit-superforms/adapters';
+	import FileIcon from '$lib/components/icons/File.svelte';
 
 	export let data: PageData;
 
 	const { form, errors, enhance, constraints } = superForm(data.form, {
 		taintedMessage: null,
-		validators: uploadSchema,
+		validators: zodClient(uploadSchema),
 		validationMethod: 'auto',
 	});
+
+	$: console.log($errors.files);
 </script>
 
 <svelte:head>
 	<title>Upload - Load Order Library</title>
 </svelte:head>
-<SuperDebug data={$form} />
+<!-- <SuperDebug data={$form} /> -->
 <h1 class="mb-4 text-3xl font-bold">Upload a List</h1>
 
-<article class="grid grid-cols-2 gap-10">
-	<section class="flex flex-col">
+<article class="grid grid-cols-1 gap-10 md:grid-cols-6">
+	<section class="col-span-4 flex flex-col">
 		<h2 class="text-3xl">List Info</h2>
 		<form method="POST" class="mt-5 flex flex-col space-y-4" use:enhance enctype="multipart/form-data">
 			<section class="space-y-4">
@@ -76,7 +80,6 @@
 							? 'border border-red-500'
 							: ''} bg-gray-200 px-4 py-3 pl-14 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a]"
 						placeholder="Version (optional)..."
-						required
 						{...$constraints.version}
 					/>
 				</label>
@@ -161,7 +164,6 @@
 							? 'border border-red-500'
 							: ''} bg-gray-200 px-4 py-3 pl-14 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a]"
 						placeholder="Website (optional)..."
-						required
 						{...$constraints.website}
 					/>
 				</label>
@@ -188,7 +190,6 @@
 							? 'border border-red-500'
 							: ''} bg-gray-200 px-4 py-3 pl-14 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a]"
 						placeholder="Discord (optional)..."
-						required
 						{...$constraints.discord}
 					/>
 				</label>
@@ -215,7 +216,6 @@
 							? 'border border-red-500'
 							: ''} bg-gray-200 px-4 py-3 pl-14 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a]"
 						placeholder="README (optional)..."
-						required
 						{...$constraints.readme}
 					/>
 				</label>
@@ -255,25 +255,105 @@
 					/>
 				</label>
 				{#if $errors?.files}
-					<p class="ml-4 text-sm text-red-500">{$errors.files}</p>
-				{/if}
-
-				{#if $form.files}
-					{#each $form.files as file}
-						<p>{file.name}</p>
-						<p>
-							{(Number(file.size) / 1024).toLocaleString(undefined, {
-								minimumFractionDigits: 2,
-								maximumFractionDigits: 2,
-							})} KiB
-						</p>
+					{#each Object.entries($errors?.files) as [index, error]}
+						<p class="ml-4 text-sm text-red-500">File {Number(index) + 1}: {error}</p>
 					{/each}
 				{/if}
+
+				<!-- {#if $form.files}
+					{#each $form.files as file}
+						<section
+							class="flex w-full justify-between bg-gray-200 px-4 py-3 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a]"
+						>
+							<p>
+								<FileIcon class="inline h-6 w-6 text-green-500" />
+								{file.name}
+							</p>
+							<p>
+								<span>
+									{(Number(file.size) / 1024).toLocaleString(undefined, {
+										minimumFractionDigits: 2,
+										maximumFractionDigits: 2,
+									})} KiB
+								</span>
+							</p>
+						</section>
+					{/each}
+				{/if} -->
+			</section>
+			<section class="flex justify-between">
+				<button
+					type="submit"
+					class="rounded-full bg-blue-500 px-8 py-3 text-white hover:bg-blue-600 active:bg-blue-700"
+					>Upload</button
+				>
+
+				<label for="private" class="flex items-center">
+					<input
+						type="checkbox"
+						name="private"
+						id="private"
+						bind:checked={$form.private}
+						class="ml-2 h-5 w-5 cursor-pointer text-white accent-green-500"
+					/>
+
+					<span class="ml-4">Private List</span>
+				</label>
 			</section>
 		</form>
 	</section>
 
-	<section class="flex justify-end">
-		<h2 class="text-3xl">Valid Files</h2>
+	<section class="col-span-2">
+		<h2 class="mb-5 text-3xl">Files</h2>
+		<!--		<ul class="md:text-right">
+			<li>enblocal.ini</li>
+			<li>enbseries.ini</li>
+			<li>fallout.ini</li>
+			<li>falloutprefs.ini</li>
+			<li>fallout4.ini</li>
+			<li>fallout4custom.ini</li>
+			<li>fallout4prefs.ini</li>
+			<li>falloutcustom.ini</li>
+			<li>geckcustom.ini</li>
+			<li>geckprefs.ini</li>
+			<li>loadorder.txt</li>
+			<li>mge.ini</li>
+			<li>modlist.txt</li>
+			<li>morrowind.ini</li>
+			<li>mwse-version.ini</li>
+			<li>oblivion.ini</li>
+			<li>oblivionprefs.ini</li>
+			<li>plugins.txt</li>
+			<li>settings.ini</li>
+			<li>skyrim.ini</li>
+			<li>skyrimcustom.ini</li>
+			<li>skyrimprefs.ini</li>
+			<li>skyrimvr.ini</li>
+			<li>starfield.ini</li>
+			<li>starfieldcustom.ini</li>
+			<li>starfieldprefs.ini</li>
+		</ul> -->
+		{#if $form.files.length > 0}
+			{#each $form.files as file}
+				<section
+					class="mt-5 flex w-full justify-between bg-gray-200 px-4 py-3 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a]"
+				>
+					<p>
+						<FileIcon class="inline h-6 w-6 text-green-500" />
+						{file.name}
+					</p>
+					<p>
+						<span>
+							{(Number(file.size) / 1024).toLocaleString(undefined, {
+								minimumFractionDigits: 2,
+								maximumFractionDigits: 2,
+							})} KiB
+						</span>
+					</p>
+				</section>
+			{/each}
+		{:else}
+			<p>No files selected yet.</p>
+		{/if}
 	</section>
 </article>

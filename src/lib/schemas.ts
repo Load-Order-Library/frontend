@@ -91,10 +91,12 @@ export const uploadSchema = z.object({
 	website: z.string().trim().optional(),
 	discord: z.string().trim().optional(),
 	expires: z.string().trim().optional(),
-	private: z.string().trim().optional(),
+	private: z.boolean().optional(),
 	files: z
 		.instanceof(File, { message: 'Please upload a file.' })
-		.refine((f) => f.size < 100_000, 'Max 100 kB upload size.')
+		.refine((f) => f.size < 512000, 'Max 512 kB upload size.')
+		.refine((f) => f.size > 0, 'File must not be empty.')
+		.refine((f) => f.name.endsWith('.txt') || f.name.endsWith('.ini'), 'File must be a .txt or .ini file.')
 		.array(),
 });
 
