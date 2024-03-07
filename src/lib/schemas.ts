@@ -78,6 +78,33 @@ export const passwordUpdateSchema = z
 		}
 	});
 
+const validFilenames = [
+	'enblocal.ini',
+	'enbseries.ini',
+	'fallout.ini',
+	'falloutprefs.ini',
+	'fallout4.ini',
+	'fallout4custom.ini',
+	'fallout4prefs.ini',
+	'geckcustom.ini',
+	'geckprefs.ini',
+	'loadorder.txt',
+	'mge.ini',
+	'modlist.txt',
+	'morrowind.ini',
+	'mwse-version.ini',
+	'oblivion.ini',
+	'oblivionprefs.ini',
+	'plugins.txt',
+	'settings.txt',
+	'skyrim.ini',
+	'skyrimcustom.ini',
+	'skyrimprefs.ini',
+	'starfield.ini',
+	'starfieldcustom.ini',
+	'starfieldprefs.ini',
+];
+
 export const uploadSchema = z.object({
 	name: z
 		.string({ required_error: 'Name is required.' })
@@ -97,6 +124,10 @@ export const uploadSchema = z.object({
 		.refine((f) => f.size < 512000, 'Max 512 kB upload size.')
 		.refine((f) => f.size > 0, 'File must not be empty.')
 		.refine((f) => f.name.endsWith('.txt') || f.name.endsWith('.ini'), 'File must be a .txt or .ini file.')
+		.refine(
+			(f) => validFilenames.includes(f.name.toLowerCase()),
+			'File must be one of the following: ' + validFilenames.join(', ')
+		)
 		.array(),
 });
 

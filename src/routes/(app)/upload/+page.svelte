@@ -30,6 +30,7 @@
 <article class="grid grid-cols-1 gap-10 md:grid-cols-6">
 	<section class="col-span-4 flex flex-col">
 		<h2 class="text-3xl">List Info</h2>
+
 		<form method="POST" class="mt-5 flex flex-col space-y-4" use:enhance enctype="multipart/form-data">
 			<section class="space-y-4">
 				<label for="name" class="relative block">
@@ -238,42 +239,51 @@
 					{/each}
 				{/if}
 
-				<label for="files" class="relative block">
+				<label for="files" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
 					<input
 						type="file"
 						name="files[]"
 						id="files"
 						accept=".txt, .ini"
-						class="w-full rounded-full bg-gray-200 px-4 py-3 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a]"
+						class="block w-full rounded-full bg-gray-200 file:rounded-l-full file:border-none file:bg-blue-500 file:p-4 file:text-white file:hover:cursor-pointer focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a]"
 						multiple
 						required
 						on:input={(e) => ($form['files[]'] = Array.from(e.currentTarget.files ?? []))}
 					/>
 				</label>
+
+				<p class="pl-4 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">
+					.txt or .ini (Max 512KB)
+				</p>
+
 				{#if $errors['files[]']}
 					{#each Object.entries($errors['files[]']) as [index, error]}
 						<p class="ml-4 text-sm text-red-500">File {Number(index) + 1}: {error}</p>
 					{/each}
 				{/if}
 			</section>
-			<section class="flex justify-between">
+			<section class="flex flex-col justify-between md:flex-row">
+				<div class="flex flex-col items-start pl-4">
+					<label for="private" class="flex items-center">
+						<input
+							type="checkbox"
+							name="private"
+							id="private"
+							bind:checked={$form.private}
+							class=" h-5 w-5 cursor-pointer text-white accent-green-500"
+						/>
+
+						<span class="ml-4">Private List</span>
+					</label>
+					<p class="mb-4 text-sm text-gray-500 dark:text-gray-300 md:m-0" id="file_input_help">
+						A private list is viewable by anyone with the link.
+					</p>
+				</div>
 				<button
 					type="submit"
 					class="rounded-full bg-blue-500 px-8 py-3 text-white hover:bg-blue-600 active:bg-blue-700"
 					>Upload</button
 				>
-
-				<label for="private" class="flex items-center">
-					<input
-						type="checkbox"
-						name="private"
-						id="private"
-						bind:checked={$form.private}
-						class="ml-2 h-5 w-5 cursor-pointer text-white accent-green-500"
-					/>
-
-					<span class="ml-4">Private List</span>
-				</label>
 			</section>
 		</form>
 	</section>
