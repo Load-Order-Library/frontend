@@ -3,8 +3,10 @@ import { uploadSchema } from '$lib/schemas';
 import { API_URL } from '$env/static/private';
 import { fail, type Actions, redirect, error } from '@sveltejs/kit';
 import { zod } from 'sveltekit-superforms/adapters';
+import type { PageServerLoad } from './$types';
 
-export const load = async () => {
+// Todo, error if games request fails.
+export const load: PageServerLoad = async () => {
 	// Different schemas, so no id required.
 	const form = await superValidate(zod(uploadSchema));
 	const resp = await fetch(`${API_URL}/v1/games`, {
