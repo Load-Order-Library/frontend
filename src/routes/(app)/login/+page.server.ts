@@ -1,10 +1,10 @@
-import type { Actions } from './$types';
-import { error, fail, redirect } from '@sveltejs/kit';
 import { API_URL } from '$env/static/private';
-import { useSetCookies } from '$lib/utils/useSetCookies';
 import { loginSchema } from '$lib/schemas';
-import { superValidate } from 'sveltekit-superforms/server';
+import { useSetCookies } from '$lib/utils/useSetCookies';
+import { error, fail, redirect } from '@sveltejs/kit';
 import { zod } from 'sveltekit-superforms/adapters';
+import { superValidate } from 'sveltekit-superforms/server';
+import type { Actions } from './$types';
 
 export const load = async () => {
 	// Server API:

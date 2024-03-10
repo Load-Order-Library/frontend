@@ -24,6 +24,19 @@
 
 <svelte:head>
 	<title>Upload - Load Order Library</title>
+	<!-- FB Meta -->
+	<meta property="og:url" content={$page.url.href} />
+	<meta property="og:title" content="Upload - Load Order Library" />
+	<meta property="og:description" content="A modlist files site to help with support." />
+	<meta property="og:image" content="/images/logo.png" />
+	<meta property="og:type" content="website" />
+
+	<!-- Twitter Meta -->
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:url" content={$page.url.href} />
+	<meta name="twitter:title" content="Upload - Load Order Library" />
+	<meta name="twitter:description" content="A modlist files site to help with support." />
+	<meta name="twitter:image" content="/images/logo.png" />
 </svelte:head>
 <h1 class="mb-4 text-3xl font-bold">Upload a List</h1>
 

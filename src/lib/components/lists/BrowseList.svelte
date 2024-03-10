@@ -10,7 +10,7 @@
 <article
 	class="flex flex-col space-y-4 rounded-xl bg-gray-200 p-4 text-text-light dark:bg-[#26263a] dark:text-text-dark"
 >
-	<header class="grid grid-cols-2 justify-between">
+	<header class=" justify-between">
 		<h1 class="col-span-2 font-bold">
 			<a
 				class="text-xl leading-none text-green-600 hover:text-green-500 md:text-2xl md:leading-none"
@@ -22,7 +22,7 @@
 				<span class="font-bold">
 					{list.version ? 'v' + list.version : ''}
 				</span>
-				for
+
 				<a
 					class="inline font-bold text-blue-500 hover:text-blue-600"
 					href="/lists?filter[game]={encodeURIComponent(list.game.name)}">{list.game.name}</a
