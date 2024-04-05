@@ -12,7 +12,7 @@ export const load: PageServerLoad = async ({ fetch, params }) => {
 
 	if (resp.status !== 200) {
 		if (resp.status === 404) {
-			error(404, 'List not found');
+			error(404, 'One or both lists not found');
 		}
 		error(resp.status, await resp.text());
 	}
