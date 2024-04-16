@@ -4,7 +4,7 @@ import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ fetch }) => {
 	// TODO: This should be made a specific /comparison route that also returns private lists of the logged in user.
-	const route = `${API_URL}/v1/lists`;
+	const route = `${API_URL}/v1/compare`;
 
 	const resp = await fetch(route, {
 		headers: { Accept: 'application/json' },
