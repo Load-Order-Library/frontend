@@ -11,7 +11,6 @@
 	export { className as class };
 	export let fileName: string;
 	let filterText: string;
-	let separatorId: number;
 	let showDisabled: boolean = false;
 
 	function filterList() {
