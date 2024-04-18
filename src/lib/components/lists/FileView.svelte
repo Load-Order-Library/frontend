@@ -5,7 +5,7 @@
 	// This allows us to use .filter() on content and also have it show files again
 	// when deleting a search, instead of mutating it with content = content.filter()
 	// and ending up forcing the user to refresh the page to see original lines again.
-	let file = content;
+	let file: string[] = content;
 
 	let className: string = '';
 	export { className as class };
