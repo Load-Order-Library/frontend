@@ -10,7 +10,7 @@
 <article
 	class="flex flex-col space-y-4 rounded-xl bg-gray-200 p-4 text-text-light dark:bg-[#26263a] dark:text-text-dark"
 >
-	<header class=" justify-between">
+	<section class=" justify-between">
 		<h1 class="col-span-2 font-bold">
 			<a
 				class="text-xl leading-none text-green-600 hover:text-green-500 md:text-2xl md:leading-none"
@@ -37,8 +37,9 @@
 				</a>
 			</p>
 		</section>
-	</header>
-	<p class="flex flex-1">
+	</section>
+
+	<section class="flex flex-1">
 		<!-- This is better than nested ternary operators and I refuse to hear otherwise :P -->
 		{#if list.description}
 			{#if list.description.length > 300}
@@ -49,31 +50,29 @@
 		{:else}
 			No description provided.
 		{/if}
-	</p>
+	</section>
 
-	<footer class="flex flex-col">
-		<section class="flex flex-col">
-			<p title={format(new Date(list.created), 'PPpp')} class="flex text-sm text-slate-500">
-				Created{' '}
-				{formatDistanceToNow(new Date(list.created), {
+	<section class="flex flex-col">
+		<p title={format(new Date(list.created), 'PPpp')} class="flex text-sm text-slate-500">
+			Created{' '}
+			{formatDistanceToNow(new Date(list.created), {
+				addSuffix: true,
+			})}
+		</p>
+		<p title={format(new Date(list.updated), 'PPpp')} class="flex text-sm text-slate-500">
+			Updated
+			{formatDistanceToNow(new Date(list.updated), {
+				addSuffix: true,
+			})}
+		</p>
+		{#if list.expires}
+			<p title={format(new Date(list.expires), 'PPpp')} class="flex text-sm text-slate-500">
+				Expires
+				{formatDistanceToNow(new Date(list.expires), {
 					addSuffix: true,
 				})}
 			</p>
-			<p title={format(new Date(list.updated), 'PPpp')} class="flex text-sm text-slate-500">
-				Updated
-				{formatDistanceToNow(new Date(list.updated), {
-					addSuffix: true,
-				})}
-			</p>
-			{#if list.expires}
-				<p title={format(new Date(list.expires), 'PPpp')} class="flex text-sm text-slate-500">
-					Expires
-					{formatDistanceToNow(new Date(list.expires), {
-						addSuffix: true,
-					})}
-				</p>
-			{/if}
-		</section>
+		{/if}
 		<ManageButtons {list} />
-	</footer>
+	</section>
 </article>

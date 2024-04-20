@@ -189,7 +189,7 @@
 						</section>
 					</header>
 					<FileView
-						content={file.content}
+						content={file.clean_name === 'modlist.txt' ? file.content : file.content}
 						class={fileToggles[file.clean_name].hidden ? 'hidden' : ''}
 						fileName={file.clean_name}
 					/>

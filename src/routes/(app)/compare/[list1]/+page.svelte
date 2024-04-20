@@ -1,5 +1,7 @@
 <script lang="ts">
 	import VerifiedIcon from '$lib/components/icons/Verified.svelte';
+	import BrowseList from '$lib/components/lists/BrowseList.svelte';
+	import CompareList from '$lib/components/lists/CompareList.svelte';
 	import type { List } from '$lib/types/List';
 	import type { PageData } from './$types';
 
@@ -32,22 +34,33 @@
 </svelte:head>
 
 <h1 class="mb-4 text-3xl font-bold">Compare Lists</h1>
-<h2 class="mb-4 text-2xl font-bold">Choose List to Compare Against {firstList.data.name}</h2>
+
+<section class="flex flex-col justify-between gap-10 md:flex-row">
+	<div class="md:w-1/2">
+		<CompareList list={firstList.data} />
+	</div>
+	<p class="flex items-center justify-center text-4xl font-bold text-blue-500">vs.</p>
+	<div
+		class="flex flex-col items-center justify-center space-y-4 rounded-xl bg-gray-200 p-4 text-text-light dark:bg-[#26263a] dark:text-text-dark md:w-1/2"
+	>
+		<p class="text-8xl font-bold">?</p>
+	</div>
+</section>
 
 <!-- TODO: Show simple view of the first list being compared -->
 
 <input
 	type="text"
-	class="mb-8 flex w-full rounded-xl bg-gray-200 p-4 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a] md:w-auto"
+	class="my-8 flex w-full rounded-xl bg-gray-200 p-4 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-[#26263a] md:w-auto"
 	placeholder="Filter..."
 	id="filter-lists"
 	bind:value={filterText}
 	on:input={filterLists}
 />
 
-<article class="grid grid-cols-1 gap-10 md:grid-cols-3 lg:grid-cols-4">
+<div class="grid grid-cols-1 gap-10 md:grid-cols-3 lg:grid-cols-4">
 	{#each lists as list}
-		<section
+		<article
 			class="flex justify-between rounded-xl bg-gray-200 p-4 text-text-light dark:bg-[#26263a] dark:text-text-dark"
 		>
 			<header class="">
@@ -74,8 +87,8 @@
 			</header>
 			<a
 				class="self-end rounded-xl p-2 font-bold text-blue-500 hover:text-blue-600 active:text-blue-600"
-				href="/compare/{list.slug}">Compare</a
+				href="/compare/{firstList.data.slug}/{list.slug}">Compare</a
 			>
-		</section>
+		</article>
 	{/each}
-</article>
+</div>
